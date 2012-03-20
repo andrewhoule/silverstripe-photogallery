@@ -63,11 +63,11 @@ class PhotoGallery_Controller extends Page_Controller {
 
 	function init() {
 		parent::init();
-		Requirements::CSS('photo_gallery/prettyPhoto/css/prettyPhoto.css');
-		Requirements::CSS('photo_gallery/css/photogallery.css');
+		Requirements::CSS('photogallery/prettyPhoto/css/prettyPhoto.css');
+		Requirements::CSS('photogallery/css/photogallery.css');
 		Requirements::javascript(THIRDPARTY_DIR."/jquery/jquery.js");
-		Requirements::javascript('photo_gallery/prettyPhoto/js/jquery.prettyPhoto.js');
-		Requirements::javascript('photo_gallery/js/prettyPhoto_init.js');
+		Requirements::javascript('photogallery/prettyPhoto/js/jquery.prettyPhoto.js');
+		Requirements::javascript('photogallery/js/prettyPhoto_init.js');
 	}
 
 	static $allowed_actions = array(
