@@ -105,7 +105,7 @@
 		
 		
 	<% else %>
-		<p>There are not photos in this album.</p>
+		<p>There are no photos in this album.</p>
 		
 	<% end_if %>
 	
