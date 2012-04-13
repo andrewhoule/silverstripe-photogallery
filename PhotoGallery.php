@@ -37,7 +37,7 @@ class PhotoGallery extends Page {
 			'getCMSFields_forPopup' // Detail fields function or FieldSet
 		);
 		$PhotosManager->setAddTitle('Photo');
-		$PhotosManager->setUploadFolder('photo_gallery');
+		$PhotosManager->setUploadFolder('photogallery');
 		$PhotosManager->setDefaultView('list');
 		$PhotosManager->setAllowedFileTypes(array('jpg','jpeg','png','gif'));
 		$PhotosManager->setUploadLimit('20');

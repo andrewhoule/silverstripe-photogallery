@@ -19,7 +19,7 @@ class PhotoAlbum extends DataObject {
 	public function getCMSFields() {
 		$imagefield = new ImageUploadField('Photo');
 		$imagefield->removeFolderSelection();
-		$imagefield->setUploadFolder('photo_gallery');
+		$imagefield->setUploadFolder('photogallery');
 		
 		return new FieldSet(
 			new TextField('Name'),
