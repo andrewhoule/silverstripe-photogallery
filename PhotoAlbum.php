@@ -4,7 +4,7 @@ class PhotoAlbum extends DataObject {
 	
 	static $db = array (
 		"Name" => "Text",
-		"Description" => "Text"
+		"Description" => "HTMLText"
 	);
 	
 	static $has_one = array (
@@ -23,7 +23,7 @@ class PhotoAlbum extends DataObject {
 		
 		return new FieldSet(
 			new TextField('Name'),
-			new TextField('Description'),
+			new TextareaField('Description'),
 			$imagefield
 		);
 	}
