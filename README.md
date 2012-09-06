@@ -6,7 +6,8 @@ Andrew Houle
 http://andyhoule.com
 
 ## Requirements
-* SilverStripe minimum version 3.0+. SortableGridField Module - https://github.com/UndefinedOffset/SortableGridField
+* SilverStripe minimum version 3.0+.
+* SortableGridField Module - https://github.com/UndefinedOffset/SortableGridField
 * GridFieldBulkEditingTools - https://github.com/colymba/GridFieldBulkEditingTools
 
 ## Installation
