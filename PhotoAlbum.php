@@ -3,6 +3,7 @@
 class PhotoAlbum extends DataObject { 
 	
 	static $db = array (
+	   'SortID' => 'Int',
 		"Name" => "Text",
 		"Description" => "HTMLText"
 	);
@@ -16,15 +17,33 @@ class PhotoAlbum extends DataObject {
 		"PhotoItems" => "PhotoItem"
 	);
 	
+	static $summary_fields = array (
+      'Name' => 'Name',
+      'DescriptionExcerpt' => 'Description',
+      'Thumbnail' => 'Album Cover Photo'
+   );
+   
+   public static $default_sort = 'SortID Asc';
+   
 	public function getCMSFields() {
-		$imagefield = new ImageUploadField('Photo');
-		$imagefield->removeFolderSelection();
-		$imagefield->setUploadFolder('photogallery');
-		
-		return new FieldSet(
+	  $PhotosGridFieldConfig = GridFieldConfig::create()->addComponents(
+         new GridFieldToolbarHeader(),
+         new GridFieldSortableHeader(),
+         new GridFieldDataColumns(),
+         new GridFieldPaginator(10),
+         new GridFieldEditButton(),
+         new GridFieldDeleteAction(),
+         new GridFieldDetailForm(),
+         new GridFieldBulkEditingTools(),
+         new GridFieldBulkImageUpload(),
+         new GridFieldSortableRows("SortID")
+     );
+     $PhotosGridField = new GridField("Photos", "Photo", $this->PhotoItems(), $PhotosGridFieldConfig);
+	  return new FieldList(
 			new TextField('Name'),
 			new TextareaField('Description'),
-			$imagefield
+			new UploadField('Photo','Gallery Cover Photo'),
+			$PhotosGridField
 		);
 	}
 	
@@ -36,6 +55,15 @@ class PhotoAlbum extends DataObject {
 			return null;
 	}
 	
+	function DescriptionExcerpt($length = 75) {
+   	$text = strip_tags($this->Description);
+   	$length = abs((int)$length);
+   	if(strlen($text) > $length) {
+   		$text = preg_replace("/^(.{1,$length})(\s.*|$)/s", '\\1 ...', $text);
+   	}
+   	return $text;
+   }
+	
 	public function PhotoCropped($x=120,$y=120) {
 		 return $this->Photo()->CroppedImage($x,$y);
 	}
@@ -46,20 +74,6 @@ class PhotoAlbum extends DataObject {
             return $PhotoGallery->Link($Action);   
         }
     }
-    
-    public function Photos() {
-		if(!isset($_GET['start']) || !is_numeric($_GET['start']) || (int)$_GET['start'] < 1) $_GET['start'] = 0;
-     		$SQL_start = (int)$_GET['start'];
-			return DataObject::get("PhotoItem", "PhotoAlbumID=$this->ID", null, null, $_GET['start'] . ",20");
-	}
-	
-	public function OtherAlbums() {
-		return DataObject::get("PhotoAlbum","ID != $this->ID");
-	}
-	
-	public function IteratorPos($val=3){
-		return ($this->iteratorPos + 1) % $val == 0;
-	}
 	
 }
 
