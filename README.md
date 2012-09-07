@@ -2,7 +2,8 @@ Simple Photo Gallery
 ====================
 
 ## Author
-Andrew Houle http://andyhoule.com
+* Andrew Houle
+* http://andyhoule.com
 
 ## Requirements
 * SilverStripe minimum version 3.0+.
@@ -16,7 +17,6 @@ Andrew Houle http://andyhoule.com
 * Create a new photo gallery page and enjoy.
 
 ## Todo
-* Get sorting working on albums.
 * Account for if only 1 album is created (just show those photos and description).
 * Better default styling.
 * Change folder where photos are saved.
