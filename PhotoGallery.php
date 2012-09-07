@@ -32,7 +32,7 @@ class PhotoGallery extends Page {
          new GridFieldDetailForm(),
          new GridFieldSortableRows("SortID")
       );
-      $AlbumsGridField = new GridField("Photo Albums", "Photo Album", $this->PhotoAlbums(), $AlbumsGridFieldConfig);
+      $AlbumsGridField = new GridField("Photo Albums", "PhotoAlbum", $this->PhotoAlbums(), $AlbumsGridFieldConfig);
       $fields->addFieldToTab("Root.Photos", $AlbumsGridField);
       $fields->addFieldToTab("Root.Config", new TextField('AlbumsPerPage','Number of Albums Per Page'));
       $fields->addFieldToTab("Root.Config", new TextField('PhotosPerPage','Number of Photos Per Page'));
