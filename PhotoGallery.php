@@ -75,7 +75,7 @@ class PhotoGallery_Controller extends Page_Controller {
 		$PhotoAlbumSet = new ArrayList();
 		if($PhotoAlbums->exists()) {
    		foreach($PhotoAlbums as $PhotoAlbum) {
-   		   if($PhotoAlbum->getComponents('PhotoItems')->exists())
+   		   if($PhotoAlbum->getComponents('PhotoItems')->exists() AND $PhotoAlbum->getComponent('PhotoGallery')->exists())
       		   $PhotoAlbumSet -> push($PhotoAlbum); 
    		}
 		}
@@ -103,7 +103,7 @@ class PhotoGallery_Controller extends Page_Controller {
       $OtherAlbumSet = new ArrayList();
 		if($OtherAlbums->exists()) {
    		foreach($OtherAlbums as $OtherAlbum) {
-   		   if($OtherAlbum->getComponents('PhotoItems')->exists())
+   		   if($OtherAlbum->getComponents('PhotoItems')->exists() AND $OtherAlbum->getComponent('PhotoGallery')->exists())
       		   $OtherAlbumSet -> push($OtherAlbum); 
    		}
 		}
