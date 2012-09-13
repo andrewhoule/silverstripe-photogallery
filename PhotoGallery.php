@@ -71,7 +71,15 @@ class PhotoGallery_Controller extends Page_Controller {
    }
    
    public function PhotoAlbums() {
-		return PhotoAlbum::get()->filter('PhotoGalleryID',$this->ID)->exclude('PhotoID','0');
+      $PhotoAlbums = PhotoAlbum::get()->filter('PhotoGalleryID',$this->ID)->exclude('PhotoID','0');
+		$PhotoAlbumSet = new ArrayList();
+		if($PhotoAlbums->exists()) {
+   		foreach($PhotoAlbums as $PhotoAlbum) {
+   		   if($PhotoAlbum->getComponents('PhotoItems')->exists())
+      		   $PhotoAlbumSet -> push($PhotoAlbum); 
+   		}
+		}
+		return $PhotoAlbumSet;
 	}
 	
 	public function PaginatedAlbums() {
