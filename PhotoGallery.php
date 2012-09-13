@@ -104,7 +104,7 @@ class PhotoGallery_Controller extends Page_Controller {
 		if($OtherAlbums->exists()) {
    		foreach($OtherAlbums as $OtherAlbum) {
    		   if($OtherAlbum->getComponents('PhotoItems')->exists())
-      		   $$OtherAlbumSet -> push($OtherAlbum); 
+      		   $OtherAlbumSet -> push($OtherAlbum); 
    		}
 		}
 		return $OtherAlbumSet;
