@@ -99,16 +99,16 @@ class PhotoGallery_Controller extends Page_Controller {
    }
    
    public function OtherAlbums() {
-      $OtherAlbums = PhotoAlbum::get()->exclude('ID',$this->getAlbum()->ID)->limit('10');
+      $OtherAlbums = PhotoAlbum::get()->exclude('ID',$this->getAlbum()->ID)->filter('PhotoGalleryID',$this->ID)->limit('10');
       $OtherAlbumSet = new ArrayList();
-		if($OtherAlbums->exists()) {
-   		foreach($OtherAlbums as $OtherAlbum) {
-   		   if($OtherAlbum->getComponents('PhotoItems')->exists() AND $OtherAlbum->getComponent('PhotoGallery')->exists())
-      		   $OtherAlbumSet -> push($OtherAlbum); 
-   		}
-		}
-		return $OtherAlbumSet;
-   }
+      if($OtherAlbums->exists()) {
+         foreach($OtherAlbums as $OtherAlbum) {
+            if($OtherAlbum->getComponents('PhotoItems')->exists() AND $OtherAlbum->getComponent('PhotoGallery')->exists())
+               $OtherAlbumSet -> push($OtherAlbum); 
+         }
+      }
+      return $OtherAlbumSet;
+   }   
  
 }
 
