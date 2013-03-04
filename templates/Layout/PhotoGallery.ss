@@ -15,9 +15,7 @@
    				<h4><a href="$Link" title="View the $Name gallery">$Name</a></h4>
    				<p>$Description</p>
    			</div>
-   			
       	<% end_loop %>
-      	
       	<% if PaginatedAlbums.MoreThanOnePage %>
              <% if PaginatedAlbums.NotFirstPage %>
                  <a class="prev" href="$PaginatedAlbums.PrevLink">Prev</a>
@@ -37,10 +35,6 @@
                  <a class="next" href="$PaginatedAlbums.NextLink">Next</a>
              <% end_if %>
          <% end_if %>
-      	
       <% end_if %>
-		
 	</article>
-		$PageComments
 </div>
-<% include SideBar %>

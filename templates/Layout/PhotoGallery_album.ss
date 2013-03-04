@@ -43,13 +43,8 @@
    			<% end_loop %>
    			</ul>
    		<% end_if %>
-		
-		
 	</article>
-		$PageComments
 </div>
-<% include SideBar %>
-
-<% require javascript(http://code.jquery.com/jquery-1.7.2.js) %>
+<% require javascript(http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js) %>
 <% require javascript(photogallery/prettyPhoto/js/jquery.prettyPhoto.js) %>
 <% require javascript(photogallery/js/prettyPhoto_init.js) %>
