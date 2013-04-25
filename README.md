@@ -13,7 +13,7 @@ Simple Photo Gallery
 ## Installation
 * Requires SortableGridField module and GridFieldBulkEditingTools module (see above).
 * Add the photogallery folder to your site's root.
-* Run http://yoursite.com/dev/build/
+* Run http://yoursite.com/dev/build/?flush=all
 * Create a new photo gallery page and enjoy.
 
 ## Todo
