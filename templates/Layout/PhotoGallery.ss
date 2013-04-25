@@ -3,6 +3,7 @@
 		<h1>$Title</h1>
 		<div class="content">$Content</div>
 		<% if PaginatedAlbums %>
+      <div id="photo-albums">
       	<% loop PaginatedAlbums %>
    			<div class="photo-album">
    				<a href="$Link" title="View the $Name gallery">
@@ -35,6 +36,7 @@
                  <a class="next" href="$PaginatedAlbums.NextLink">Next</a>
              <% end_if %>
          <% end_if %>
+         </div><!-- photo-albums -->
       <% end_if %>
 	</article>
 </div>
