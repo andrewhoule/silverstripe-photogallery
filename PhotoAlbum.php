@@ -3,7 +3,7 @@
 class PhotoAlbum extends DataObject { 
 	
 	static $db = array (
-	   'SortID' => 'Int',
+	   	'SortID' => 'Int',
 		"Name" => "Text",
 		"Description" => "HTMLText"
 	);
@@ -18,31 +18,33 @@ class PhotoAlbum extends DataObject {
 	);
 	
 	static $summary_fields = array (
-      'Name' => 'Name',
-      'DescriptionExcerpt' => 'Description',
-      'Thumbnail' => 'Album Cover Photo'
-   );
+		'Name' => 'Name',
+		'DescriptionExcerpt' => 'Description',
+		'Thumbnail' => 'Album Cover Photo'
+	);
    
    public static $default_sort = 'SortID Asc';
    
 	public function getCMSFields() {
-	  $PhotosGridFieldConfig = GridFieldConfig::create()->addComponents(
-         new GridFieldToolbarHeader(),
-         new GridFieldSortableHeader(),
-         new GridFieldDataColumns(),
-         new GridFieldPaginator(10),
-         new GridFieldEditButton(),
-         new GridFieldDeleteAction(),
-         new GridFieldDetailForm(),
-         new GridFieldBulkEditingTools(),
-         new GridFieldBulkImageUpload(),
-         new GridFieldSortableRows("SortID")
-     );
-     $PhotosGridField = new GridField("Photos", "Photo", $this->PhotoItems(), $PhotosGridFieldConfig);
-	  return new FieldList(
-			new TextField('Name'),
-			new TextareaField('Description'),
-			new UploadField('Photo','Gallery Cover Photo'),
+		$PhotosGridFieldConfig = GridFieldConfig::create()->addComponents(
+			new GridFieldToolbarHeader(),
+			new GridFieldSortableHeader(),
+			new GridFieldDataColumns(),
+			new GridFieldPaginator(10),
+			new GridFieldEditButton(),
+			new GridFieldDeleteAction(),
+			new GridFieldDetailForm(),
+			new GridFieldBulkEditingTools(),
+			new GridFieldBulkImageUpload(),
+			new GridFieldSortableRows("SortID")
+		);
+		$PhotosGridField = new GridField("Photos", "Photo", $this->PhotoItems(), $PhotosGridFieldConfig);
+    	$imgfield = UploadField::create('Photo')->setTitle("Gallery Cover Photo");
+      	$imgfield->getValidator()->allowedExtensions = array('jpg','jpeg','gif','png');
+	  	return new FieldList(
+			TextField::create("Name"),
+			TextareaField::create("Description"),
+			$imgfield,
 			$PhotosGridField
 		);
 	}
@@ -61,8 +63,8 @@ class PhotoAlbum extends DataObject {
    	if(strlen($text) > $length) {
    		$text = preg_replace("/^(.{1,$length})(\s.*|$)/s", '\\1 ...', $text);
    	}
-   	return $text;
-   }
+   		return $text;
+   	}
 	
 	public function PhotoCropped($x=120,$y=120) {
 		 return $this->Photo()->CroppedImage($x,$y);
