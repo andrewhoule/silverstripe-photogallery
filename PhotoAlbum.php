@@ -3,7 +3,7 @@
 class PhotoAlbum extends DataObject { 
 	
 	static $db = array (
-	   	'SortID' => 'Int',
+	   	"SortID" => "Int",
 		"Name" => "Text",
 		"Description" => "HTMLText"
 	);
