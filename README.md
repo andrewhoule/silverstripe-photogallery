@@ -20,5 +20,6 @@ Simple Photo Gallery
 * Account for if only 1 album is created (just show those photos and description).
 * Better default styling.
 * Change folder where photos are saved.
+* Pick a better lightbox. And/or more to choose from
 
 
