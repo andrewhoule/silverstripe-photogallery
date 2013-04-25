@@ -1,9 +1,9 @@
-.album-photos {
+#album-photos {
 	margin: 0 0 20px 0;
 	overflow: hidden;
 	padding: 0;
 }
-.album-photos li {
+li.album-photo {
 	float: left;
 	list-style: none;
 	margin: 0 20px 20px 0;
