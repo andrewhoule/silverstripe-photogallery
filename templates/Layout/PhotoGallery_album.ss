@@ -3,9 +3,9 @@
 		<h1>$Title</h1>
 		<div class="content">$Content</div>
 		   <% if PaginatedPhotos %>
-      		<ul class="photo-album">
+      		<ul class="album-photos">
       		<% loop PaginatedPhotos %>
-      			<li>
+      			<li class="album-photo">
       				<a href="$PhotoSized(800,800).URL" rel="prettyPhoto[gallery]"><img src="$PhotoCropped(125,125).URL" alt="$Caption" /></a>
       			</li>
       		<% end_loop %>

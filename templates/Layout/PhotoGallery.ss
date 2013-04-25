@@ -4,7 +4,7 @@
 		<div class="content">$Content</div>
 		<% if PaginatedAlbums %>
       	<% loop PaginatedAlbums %>
-   			<div class="third">
+   			<div class="photo-album">
    				<a href="$Link" title="View the $Name gallery">
    					<% if PhotoCropped %>
    						<img src="$PhotoCropped(230,170).URL" alt="$Name" />
