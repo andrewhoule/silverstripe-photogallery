@@ -22,8 +22,13 @@ class PhotoAlbum extends DataObject {
 		'DescriptionExcerpt' => 'Description',
 		'Thumbnail' => 'Album Cover Photo'
 	);
+
+	function canCreate($Member = null) { return true; }
+	function canEdit($Member = null) { return true; }
+	function canView($Member = null) { return true; }
+	function canDelete($Member = null) { return true; }
    
-   public static $default_sort = 'SortID Asc';
+   	public static $default_sort = 'SortID Asc';
    
 	public function getCMSFields() {
 		$PhotosGridFieldConfig = GridFieldConfig::create()->addComponents(

@@ -28,6 +28,11 @@ class PhotoItem extends DataObject {
       	'CaptionExcerpt' => 'Caption',
       	'Thumbnail' => 'Photo'
    	);
+
+   	function canCreate($Member = null) { return true; }
+	function canEdit($Member = null) { return true; }
+	function canView($Member = null) { return true; }
+	function canDelete($Member = null) { return true; }
 	
 	public function Thumbnail() {
 		$Image = $this->Photo();
