@@ -89,7 +89,16 @@ class PhotoGallery_Controller extends Page_Controller {
    }
    
    public function Photos() {
-      return PhotoItem::get()->filter('PhotoAlbumID',$this->getAlbum()->ID);
+      $photoset = new ArrayList();
+      $photos = PhotoItem::get()->filter('PhotoAlbumID',$this->getAlbum()->ID);
+      if($photos) {
+         foreach($photos AS $photo) {
+            if($photo->getComponent('Photo')->exists()) {
+               $photoset->push($photo);
+            }
+         }
+      }
+      return $photoset;
    }
    
    public function PaginatedPhotos() {
