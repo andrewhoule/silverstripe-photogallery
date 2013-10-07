@@ -2,37 +2,38 @@
 
 class PhotoItem extends DataObject { 
 	
-	static $db = array (
+	private static $db = array (
 	   	"SortID" => "Int",
 		"Caption" => "Text"
 	);
 	
-	static $has_one = array (
+	private static $has_one = array (
 		"PhotoGallery" => "PhotoGallery",
 		"PhotoAlbum" => "PhotoAlbum",
 		"Photo" => "Image"
 	);
+
+	private static $summary_fields = array (
+      	"CaptionExcerpt" => "Caption",
+      	"Thumbnail" => "Photo"
+   	);
 
 	function canCreate($Member = null) { return true; }
 	function canEdit($Member = null) { return true; }
 	function canView($Member = null) { return true; }
 	function canDelete($Member = null) { return true; }
 	
-	public static $default_sort = 'SortID Asc';
+	private static $default_sort = "SortID Asc";
 	
 	public function getCMSFields() {
-		$imgfield = UploadField::create('Photo');
-      	$imgfield->getValidator()->allowedExtensions = array('jpg','jpeg','gif','png');
+		$imgfield = UploadField::create("Photo");
+		$imgfield->folderName = "PhotoGallery"; 
+      	$imgfield->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
 		return new FieldList(
 		   	$imgfield,
-			TextField::create('Caption')
+			TextField::create("Caption")
 		);
 	}
-	
-	static $summary_fields = array (
-      	'CaptionExcerpt' => 'Caption',
-      	'Thumbnail' => 'Photo'
-   	);
 	
 	public function Thumbnail() {
 		$Image = $this->Photo();
@@ -54,10 +55,10 @@ class PhotoItem extends DataObject {
 	public function getAlbums() {
 		$albums = PhotoAlbum::get()->sort('Created DESC');
 		if($albums->Exists()) {
-		 	return $albums->map('ID', 'Name', 'Please Select');
+		 	return $albums->map("ID", "Name", "Please Select");
 		}
 		else { 
-			return array('No albums found');
+			return array("No albums found");
 		}
 	}
 	

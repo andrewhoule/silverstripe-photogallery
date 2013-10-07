@@ -2,25 +2,25 @@
 
 class PhotoAlbum extends DataObject { 
 	
-	static $db = array (
+	private static $db = array (
 	   	"SortID" => "Int",
 		"Name" => "Text",
 		"Description" => "HTMLText"
 	);
 	
-	static $has_one = array (
+	private static $has_one = array (
 		"PhotoGallery" => "PhotoGallery",
 		"Photo" => "Image"
 	);
 	
-	static $has_many = array (
+	private static $has_many = array (
 		"PhotoItems" => "PhotoItem"
 	);
 	
-	static $summary_fields = array (
-		'Name' => 'Name',
-		'DescriptionExcerpt' => 'Description',
-		'Thumbnail' => 'Album Cover Photo'
+	private static $summary_fields = array (
+		"Name" => "Name",
+		"DescriptionExcerpt" => "Description",
+		"Thumbnail" => "Album Cover Photo"
 	);
 
 	function canCreate($Member = null) { return true; }
@@ -28,7 +28,7 @@ class PhotoAlbum extends DataObject {
 	function canView($Member = null) { return true; }
 	function canDelete($Member = null) { return true; }
    
-   	public static $default_sort = 'SortID Asc';
+   	private static $default_sort = "SortID Asc";
    
 	public function getCMSFields() {
 		$PhotosGridFieldConfig = GridFieldConfig::create()->addComponents(
@@ -39,13 +39,14 @@ class PhotoAlbum extends DataObject {
 			new GridFieldEditButton(),
 			new GridFieldDeleteAction(),
 			new GridFieldDetailForm(),
-			new GridFieldBulkEditingTools(),
+			new GridFieldBulkManager(),
 			new GridFieldBulkImageUpload(),
 			new GridFieldSortableRows("SortID")
 		);
 		$PhotosGridField = new GridField("Photos", "Photo", $this->PhotoItems(), $PhotosGridFieldConfig);
-    	$imgfield = UploadField::create('Photo')->setTitle("Gallery Cover Photo");
-      	$imgfield->getValidator()->allowedExtensions = array('jpg','jpeg','gif','png');
+    	$imgfield = UploadField::create("Photo")->setTitle("Gallery Cover Photo");
+    	$imgfield->folderName = "PhotoGallery"; 
+      	$imgfield->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
 	  	return new FieldList(
 			TextField::create("Name"),
 			TextareaField::create("Description"),
@@ -62,13 +63,13 @@ class PhotoAlbum extends DataObject {
 			return null;
 	}
 	
-	function DescriptionExcerpt($length = 75) {
-   	$text = strip_tags($this->Description);
-   	$length = abs((int)$length);
-   	if(strlen($text) > $length) {
-   		$text = preg_replace("/^(.{1,$length})(\s.*|$)/s", '\\1 ...', $text);
-   	}
-   		return $text;
+	public function DescriptionExcerpt($length = 75) {
+	   	$text = strip_tags($this->Description);
+	   	$length = abs((int)$length);
+	   	if(strlen($text) > $length) {
+	   		$text = preg_replace("/^(.{1,$length})(\s.*|$)/s", '\\1 ...', $text);
+	   	}
+	   		return $text;
    	}
 	
 	public function PhotoCropped($x=120,$y=120) {
@@ -77,7 +78,7 @@ class PhotoAlbum extends DataObject {
 	
 	public function Link() {
         if($PhotoGallery = $this->PhotoGallery()) {
-            $Action = 'album/' . $this->ID;
+            $Action = "album/" . $this->ID;
             return $PhotoGallery->Link($Action);   
         }
     }
