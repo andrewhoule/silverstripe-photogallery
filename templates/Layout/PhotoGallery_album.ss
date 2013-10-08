@@ -1,6 +1,5 @@
-
-    <h1>$Title</h1>
-    <div class="content">$Content</div>
+<h1>$PhotoAlbum.Name</h1>
+<% if PhotoAlbum.Description %><p>$PhotoAlbum.Description</p><% end_if %>
        <% if PaginatedPhotos %>
           <ul id="album-photos">
           <% loop PaginatedPhotos %>
