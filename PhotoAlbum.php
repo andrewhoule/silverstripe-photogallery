@@ -86,6 +86,10 @@ class PhotoAlbum extends DataObject {
             return $PhotoGallery->Link($Action);   
         }
     }
+
+    public function PhotoCount() {
+    	return $this->getComponents("PhotoItems")->count();
+    }
 	
 }
 

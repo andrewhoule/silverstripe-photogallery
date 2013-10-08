@@ -15,8 +15,8 @@
             </a>
                 </div><!-- photo-album-cover -->
             <div class="photo-album-info">
-                    <h4><a href="$Link" title="View the $Name gallery">$Name</a></h4>
-              <p>$Description</p>
+                    <h4><a href="$Link" title="View the $Name gallery">$Name</a> <span class="photo-count">($PhotoCount)</span></h4>
+              <p>$DescriptionExcerpt(300)</p>
                 </div><!-- photo-album-info -->
         </div><!-- photo-album -->
         <% end_loop %>
