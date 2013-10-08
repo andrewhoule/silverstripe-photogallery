@@ -21,19 +21,40 @@ class PhotoGallery extends Page {
    
    function getCMSFields() {
       $fields = parent::getCMSFields();
-      $AlbumsGridFieldConfig = GridFieldConfig::create()->addComponents(
-         new GridFieldToolbarHeader(),
-         new GridFieldAddNewButton('toolbar-header-right'),
-         new GridFieldSortableHeader(),
-         new GridFieldDataColumns(),
-         new GridFieldPaginator(10),
-         new GridFieldEditButton(),
-         new GridFieldDeleteAction(),
-         new GridFieldDetailForm(),
-         new GridFieldSortableRows("SortID")
+      $AlbumsGridField = new GridField(
+         "PhotoAlbums",
+         "Album",
+         $this->PhotoAlbums(),
+         GridFieldConfig::create()
+            ->addComponent(new GridFieldToolbarHeader())
+            ->addComponent(new GridFieldAddNewButton('toolbar-header-right'))
+            ->addComponent(new GridFieldSortableHeader())
+            ->addComponent(new GridFieldDataColumns())
+            ->addComponent(new GridFieldPaginator(50))
+            ->addComponent(new GridFieldEditButton())
+            ->addComponent(new GridFieldDeleteAction())
+            ->addComponent(new GridFieldDetailForm())
+            ->addComponent(new GridFieldSortableRows('SortID'))
       );
-      $AlbumsGridField = new GridField("PhotoAlbums", "Photo Album", $this->PhotoAlbums(), $AlbumsGridFieldConfig);
-      $fields->addFieldToTab("Root.Photos", $AlbumsGridField);
+      $fields->addFieldToTab("Root.Albums", $AlbumsGridField);
+      $PhotosGridField = new GridField(
+         "PhotoItems",
+         "Photo",
+         $this->PhotoItems(),
+         GridFieldConfig::create()
+            ->addComponent(new GridFieldToolbarHeader())
+            ->addComponent(new GridFieldAddNewButton('toolbar-header-right'))
+            ->addComponent(new GridFieldSortableHeader())
+            ->addComponent(new GridFieldDataColumns())
+            ->addComponent(new GridFieldPaginator(50))
+            ->addComponent(new GridFieldEditButton())
+            ->addComponent(new GridFieldDeleteAction())
+            ->addComponent(new GridFieldDetailForm())
+            ->addComponent(new GridFieldBulkManager())
+            ->addComponent(new GridFieldBulkImageUpload())
+            ->addComponent(new GridFieldSortableRows('SortID'))
+      );
+      $fields->addFieldToTab("Root.Photos", $PhotosGridField);
       $fields->addFieldToTab("Root.Config", TextField::create("AlbumsPerPage")->setTitle("Number of Albums Per Page"));
       $fields->addFieldToTab("Root.Config", TextField::create("PhotosPerPage")->setTitle("Number of Photos Per Page"));
       return $fields;

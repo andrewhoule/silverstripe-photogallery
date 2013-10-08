@@ -15,7 +15,8 @@ class PhotoItem extends DataObject {
 
 	private static $summary_fields = array (
       	"CaptionExcerpt" => "Caption",
-      	"Thumbnail" => "Photo"
+      	"Thumbnail" => "Photo",
+      	"AlbumTitle" => "Album"
    	);
 
 	function canCreate($Member = null) { return true; }
@@ -24,12 +25,25 @@ class PhotoItem extends DataObject {
 	function canDelete($Member = null) { return true; }
 	
 	private static $default_sort = "SortID Asc";
+	private static $singular_name = "Photo";
+	private static $plural_name = "Photos";
 	
 	public function getCMSFields() {
+		$albums = PhotoAlbum::get();
+		$map = $albums ? $albums->map("ID", "Name", "Please Select") : array();
+		if($map) {
+			$albumsdropdown = new DropdownField("PhotoAlbumID","Photo Album", $map);
+			$albumsdropdown->setEmptyString("-- Please Select --");
+		}
+		else {
+			$albumsdropdown = new DropdownField("PhotoAlbumID","Photo Album", $map);
+			$albumsdropdown->setEmptyString("There are no photo albums created yet"); 
+		}
 		$imgfield = UploadField::create("Photo");
 		$imgfield->folderName = "PhotoGallery"; 
       	$imgfield->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
 		return new FieldList(
+			$albumsdropdown,
 		   	$imgfield,
 			TextField::create("Caption")
 		);
@@ -68,6 +82,11 @@ class PhotoItem extends DataObject {
 	
 	public function PhotoSized($x=700,$y=700) {
 		return $this->Photo()->SetRatioSize($x,$y);
+	}
+
+	public function AlbumTitle() {
+		if($this->getComponent("PhotoAlbum")->exists())
+			return $this->getComponent("PhotoAlbum")->Name;
 	}
 	
 }

@@ -31,26 +31,30 @@ class PhotoAlbum extends DataObject {
    	private static $default_sort = "SortID Asc";
    
 	public function getCMSFields() {
-		$PhotosGridFieldConfig = GridFieldConfig::create()->addComponents(
-			new GridFieldToolbarHeader(),
-			new GridFieldSortableHeader(),
-			new GridFieldDataColumns(),
-			new GridFieldPaginator(10),
-			new GridFieldEditButton(),
-			new GridFieldDeleteAction(),
-			new GridFieldDetailForm(),
-			new GridFieldBulkManager(),
-			new GridFieldBulkImageUpload(),
-			new GridFieldSortableRows("SortID")
-		);
-		$PhotosGridField = new GridField("Photos", "Photo", $this->PhotoItems(), $PhotosGridFieldConfig);
-    	$imgfield = UploadField::create("Photo")->setTitle("Gallery Cover Photo");
-    	$imgfield->folderName = "PhotoGallery"; 
-      	$imgfield->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
+		$PhotosGridField = new GridField(
+            "Photos",
+            "Photo",
+            $this->PhotoItems(),
+            GridFieldConfig::create()
+                ->addComponent(new GridFieldToolbarHeader())
+                ->addComponent(new GridFieldAddNewButton("toolbar-header-right"))
+                ->addComponent(new GridFieldSortableHeader())
+                ->addComponent(new GridFieldDataColumns())
+                ->addComponent(new GridFieldPaginator(50))
+                ->addComponent(new GridFieldEditButton())
+                ->addComponent(new GridFieldDeleteAction())
+                ->addComponent(new GridFieldDetailForm())
+                ->addComponent(new GridFieldBulkManager())
+                ->addComponent(new GridFieldBulkImageUpload())
+                ->addComponent(new GridFieldSortableRows("SortID"))
+        );
+        $ImageField = UploadField::create("Photo")->setTitle("Gallery Cover Photo");
+    	$ImageField->folderName = "PhotoGallery"; 
+      	$ImageField->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
 	  	return new FieldList(
 			TextField::create("Name"),
 			TextareaField::create("Description"),
-			$imgfield,
+			$ImageField,
 			$PhotosGridField
 		);
 	}
