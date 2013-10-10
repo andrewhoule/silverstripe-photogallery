@@ -10,8 +10,8 @@
         "role": "Developer"
     }],
     "require": {
-        "silverstripe/cms": ">=3.1",
-        "silverstripe/framework": ">=3.1",
+        "silverstripe/cms": "3.*",
+        "silverstripe/framework": "3.*",
         "undefinedoffset/sortablegridfield": "*",
         "colymba/gridfield-bulk-editing-tools": "*"
     },
