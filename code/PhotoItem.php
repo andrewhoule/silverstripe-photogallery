@@ -57,7 +57,7 @@ class PhotoItem extends DataObject {
 			return null;
 	}
 	
-	function CaptionExcerpt($length = 75) {
+	public function CaptionExcerpt($length = 75) {
 		$text = strip_tags($this->Caption);
 		$length = abs((int)$length);
 		if(strlen($text) > $length) {

@@ -64,7 +64,7 @@ class PhotoGallery extends Page {
  
 class PhotoGallery_Controller extends Page_Controller {
 
-   function init() {
+   public function init() {
       parent::init();
       Requirements::CSS("photogallery/prettyPhoto/css/prettyPhoto.css");
       Requirements::CSS("photogallery/css/photogallery.css");
