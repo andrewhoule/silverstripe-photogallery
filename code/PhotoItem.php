@@ -29,15 +29,20 @@ class PhotoItem extends DataObject {
 	private static $plural_name = "Photos";
 	
 	public function getCMSFields() {
-		$albums = PhotoAlbum::get();
-		$map = $albums ? $albums->map("ID", "Name", "Please Select") : array();
-		if($map) {
-			$albumsdropdown = new DropdownField("PhotoAlbumID","Photo Album", $map);
-			$albumsdropdown->setEmptyString("-- Please Select --");
+		if($this->ID == 0) {
+			$albumsdropdown = TextField::create('AlbumDisclaimer')->setTitle('Album')->setDisabled(true)->setValue('You can assign an album once you have saved the record for the first time.');
 		}
 		else {
-			$albumsdropdown = new DropdownField("PhotoAlbumID","Photo Album", $map);
-			$albumsdropdown->setEmptyString("There are no photo albums created yet"); 
+			$albums = PhotoAlbum::get()->sort("Name ASC");
+			$map = $albums ? $albums->map("ID", "Name", "Please Select") : array();
+			if($map) {
+				$albumsdropdown = new DropdownField("PhotoAlbumID","Photo Album", $map);
+				$albumsdropdown->setEmptyString("-- Please Select --");
+			}
+			else {
+				$albumsdropdown = new DropdownField("PhotoAlbumID","Photo Album", $map);
+				$albumsdropdown->setEmptyString("There are no photo albums created yet"); 
+			}
 		}
 		$imgfield = UploadField::create("Photo");
 		$imgfield->folderName = "PhotoGallery"; 
