@@ -12,7 +12,7 @@ class PhotoGallery extends Page {
       "PhotoItems" => "PhotoItem"
    );
    
-   public static $defaults = array(
+   private static $defaults = array(
       "AlbumsPerPage" => "6",
       "PhotosPerPage" => "20"
    );
