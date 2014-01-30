@@ -25,7 +25,7 @@ class PhotoGallery extends Page {
    
    private static $icon = "photogallery/images/photogallery";
    
-   function getCMSFields() {
+   public function getCMSFields() {
 
       $DefaultAlbumCoverField = UploadField::create('DefaultAlbumCover');
       $DefaultAlbumCoverField->folderName = "PhotoGallery"; 
@@ -48,24 +48,6 @@ class PhotoGallery extends Page {
             ->addComponent(new GridFieldSortableRows('SortID'))
       );
       $fields->addFieldToTab("Root.Albums", $AlbumsGridField);
-      $PhotosGridField = new GridField(
-         "PhotoItems",
-         "Photo",
-         $this->PhotoItems(),
-         GridFieldConfig::create()
-            ->addComponent(new GridFieldToolbarHeader())
-            ->addComponent(new GridFieldAddNewButton('toolbar-header-right'))
-            ->addComponent(new GridFieldSortableHeader())
-            ->addComponent(new GridFieldDataColumns())
-            ->addComponent(new GridFieldPaginator(50))
-            ->addComponent(new GridFieldEditButton())
-            ->addComponent(new GridFieldDeleteAction())
-            ->addComponent(new GridFieldDetailForm())
-            ->addComponent(new GridFieldBulkManager())
-            ->addComponent(new GridFieldBulkImageUpload())
-            ->addComponent(new GridFieldSortableRows('SortID'))
-      );
-      $fields->addFieldToTab("Root.Photos", $PhotosGridField);
       $fields->addFieldToTab("Root.Config", TextField::create("AlbumsPerPage")->setTitle("Number of Albums Per Page"));
       $fields->addFieldToTab("Root.Config", TextField::create("PhotosPerPage")->setTitle("Number of Photos Per Page"));
       $fields->addFieldToTab("Root.Config", $DefaultAlbumCoverField);
@@ -83,7 +65,7 @@ class PhotoGallery_Controller extends Page_Controller {
       Requirements::CSS("photogallery/css/photogallery.css");
    }
    
-   static $allowed_actions = array(
+   private static $allowed_actions = array(
       'album'
    ); 
     
@@ -92,6 +74,9 @@ class PhotoGallery_Controller extends Page_Controller {
       if ( is_numeric($Params["ID"]) && $Album = PhotoAlbum::get()->byID((int)$Params["ID"]) ) {  
          return $Album;
       }  
+      else {
+         return $this->PhotoAlbums()->first();
+      }
    }
     
    public function album() {      
@@ -134,7 +119,11 @@ class PhotoGallery_Controller extends Page_Controller {
       $paginatedalbums->setPageLength($this->AlbumsPerPage);
       return $paginatedalbums;
    }
-   
+
+   public function AlbumCount() {
+      return $this->PhotoAlbums()->count();
+   }
+
    public function Photos() {
       $photoset = new ArrayList();
       $photos = PhotoItem::get()->filter("PhotoAlbumID",$this->getAlbum()->ID);

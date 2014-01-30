@@ -17,8 +17,7 @@ Simple Photo Gallery
 * Create a new photo gallery page and enjoy.
 
 ## Todo
-* Account for if only 1 album is created (just show those photos and description).
-# Add support for photos not in an album (other album).
+* Add support for video embeds (from youtube/vimeo)
 * Better default styling.
 * Pick a better lightbox and/or more to choose from.
 

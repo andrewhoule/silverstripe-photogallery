@@ -14,15 +14,14 @@ class PhotoItem extends DataObject {
 	);
 
 	private static $summary_fields = array (
-      	"CaptionExcerpt" => "Caption",
       	"Thumbnail" => "Photo",
-      	"AlbumTitle" => "Album"
+      	"CaptionExcerpt" => "Caption"
    	);
 
-	function canCreate($Member = null) { return true; }
-	function canEdit($Member = null) { return true; }
-	function canView($Member = null) { return true; }
-	function canDelete($Member = null) { return true; }
+	public function canCreate($Member = null) { return true; }
+	public function canEdit($Member = null) { return true; }
+	public function canView($Member = null) { return true; }
+	public function canDelete($Member = null) { return true; }
 	
 	private static $default_sort = "SortID Asc";
 	private static $singular_name = "Photo";
