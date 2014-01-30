@@ -6,7 +6,7 @@ Simple Photo Gallery
 * http://andyhoule.com
 
 ## Requirements
-* SilverStripe minimum version 3.0+.
+* SilverStripe minimum version 3.1+.
 * SortableGridField Module - https://github.com/UndefinedOffset/SortableGridField
 * GridFieldBulkEditingTools Module - https://github.com/colymba/GridFieldBulkEditingTools
 
