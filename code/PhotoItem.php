@@ -56,7 +56,7 @@ class PhotoItem extends DataObject {
 	
 	public function Thumbnail() {
 		$Image = $this->Photo();
-		if ( $Image ) 
+		if ($Image) 
 			return $Image->CMSThumbnail();
 		else 
 			return null;
@@ -93,6 +93,10 @@ class PhotoItem extends DataObject {
 		if($this->getComponent("PhotoAlbum")->exists())
 			return $this->getComponent("PhotoAlbum")->Name;
 	}
+
+	public function getTitle() {
+    	return $this->Caption;
+    }
 	
 }
 

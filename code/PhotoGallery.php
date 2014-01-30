@@ -4,9 +4,14 @@ class PhotoGallery extends Page {
  
    private static $db = array(
       "AlbumsPerPage" => "Int",
-      "PhotosPerPage" => "Int"
+      "PhotosPerPage" => "Int",
+      "ShowAllPhotoAlbums" => "Boolean"
    );
    
+   private static $has_one = array (
+      "DefaultAlbumCover" => "Image"
+   );
+
    private static $has_many = array (
       "PhotoAlbums" => "PhotoAlbum",
       "PhotoItems" => "PhotoItem"
@@ -14,12 +19,18 @@ class PhotoGallery extends Page {
    
    private static $defaults = array(
       "AlbumsPerPage" => "6",
-      "PhotosPerPage" => "20"
+      "PhotosPerPage" => "20",
+      "ShowAllPhotoAlbums" => true
    );
    
    private static $icon = "photogallery/images/photogallery";
    
    function getCMSFields() {
+
+      $DefaultAlbumCoverField = UploadField::create('DefaultAlbumCover');
+      $DefaultAlbumCoverField->folderName = "PhotoGallery"; 
+      $DefaultAlbumCoverField->getValidator()->allowedExtensions = array('jpg','jpeg','gif','png');
+
       $fields = parent::getCMSFields();
       $AlbumsGridField = new GridField(
          "PhotoAlbums",
@@ -57,6 +68,8 @@ class PhotoGallery extends Page {
       $fields->addFieldToTab("Root.Photos", $PhotosGridField);
       $fields->addFieldToTab("Root.Config", TextField::create("AlbumsPerPage")->setTitle("Number of Albums Per Page"));
       $fields->addFieldToTab("Root.Config", TextField::create("PhotosPerPage")->setTitle("Number of Photos Per Page"));
+      $fields->addFieldToTab("Root.Config", $DefaultAlbumCoverField);
+      $fields->addFieldToTab("Root.Config", CheckboxField::create("ShowAllPhotoAlbums")->setTitle("Show photo album even if it's empty"));
       return $fields;
    }
  
@@ -90,9 +103,13 @@ class PhotoGallery_Controller extends Page_Controller {
          return $this->httpError(404, "Sorry that photo album could not be found");
       }
    }
-   
-   public function PhotoAlbums() {
-      $PhotoAlbums = PhotoAlbum::get()->filter("PhotoGalleryID",$this->ID)->exclude("PhotoID","0");
+
+   public function AllPhotoAlbums() {
+      return PhotoAlbum::get()->filter("PhotoGalleryID",$this->ID);
+   }
+
+   public function PopulatedPhotoAlbums() {
+      $PhotoAlbums = PhotoAlbum::get()->filter("PhotoGalleryID",$this->ID);
       $PhotoAlbumSet = new ArrayList();
       if($PhotoAlbums->exists()) {
          foreach($PhotoAlbums as $PhotoAlbum) {
@@ -101,6 +118,15 @@ class PhotoGallery_Controller extends Page_Controller {
          }
       }
       return $PhotoAlbumSet;
+   }
+
+   public function PhotoAlbums() { 
+      if($this->ShowAllPhotoAlbums){
+         return $this->AllPhotoAlbums();
+      }
+      else {
+         return $this->PopulatedPhotoAlbums();
+      }
    }
    
    public function PaginatedAlbums() {

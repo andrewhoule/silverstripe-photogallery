@@ -18,7 +18,8 @@ Simple Photo Gallery
 
 ## Todo
 * Account for if only 1 album is created (just show those photos and description).
+# Add support for photos not in an album (other album).
 * Better default styling.
-* Pick a better lightbox. And/or more to choose from
+* Pick a better lightbox and/or more to choose from.
 
 

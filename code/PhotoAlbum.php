@@ -18,9 +18,9 @@ class PhotoAlbum extends DataObject {
 	);
 	
 	private static $summary_fields = array (
+		"Thumbnail" => "Cover Photo",
 		"Name" => "Name",
-		"DescriptionExcerpt" => "Description",
-		"Thumbnail" => "Album Cover Photo"
+		"DescriptionExcerpt" => "Description"
 	);
 
 	function canCreate($Member = null) { return true; }
@@ -31,53 +31,59 @@ class PhotoAlbum extends DataObject {
    	private static $default_sort = "SortID Asc";
    
 	public function getCMSFields() {
-		$PhotosGridField = new GridField(
-            "Photos",
-            "Photo",
-            $this->PhotoItems(),
-            GridFieldConfig::create()
-                ->addComponent(new GridFieldToolbarHeader())
-                ->addComponent(new GridFieldAddNewButton("toolbar-header-right"))
-                ->addComponent(new GridFieldSortableHeader())
-                ->addComponent(new GridFieldDataColumns())
-                ->addComponent(new GridFieldPaginator(50))
-                ->addComponent(new GridFieldEditButton())
-                ->addComponent(new GridFieldDeleteAction())
-                ->addComponent(new GridFieldDetailForm())
-                ->addComponent(new GridFieldBulkManager())
-                ->addComponent(new GridFieldBulkImageUpload())
-                ->addComponent(new GridFieldSortableRows("SortID"))
-        );
+		// $PhotosGridField = new GridField(
+  //           "Photos",
+  //           "Photo",
+  //           $this->PhotoItems(),
+  //           GridFieldConfig::create()
+  //               ->addComponent(new GridFieldToolbarHeader())
+  //               ->addComponent(new GridFieldAddNewButton("toolbar-header-right"))
+  //               ->addComponent(new GridFieldSortableHeader())
+  //               ->addComponent(new GridFieldDataColumns())
+  //               ->addComponent(new GridFieldPaginator(50))
+  //               ->addComponent(new GridFieldEditButton())
+  //               ->addComponent(new GridFieldDeleteAction())
+  //               ->addComponent(new GridFieldDetailForm())
+  //               ->addComponent(new GridFieldBulkManager())
+  //               ->addComponent(new GridFieldBulkImageUpload())
+  //               ->addComponent(new GridFieldSortableRows("SortID"))
+  //       );
         $ImageField = UploadField::create("Photo")->setTitle("Gallery Cover Photo");
     	$ImageField->folderName = "PhotoGallery"; 
       	$ImageField->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
 	  	return new FieldList(
 			TextField::create("Name"),
 			TextareaField::create("Description"),
-			$ImageField,
-			$PhotosGridField
+			$ImageField
+			// $PhotosGridField
 		);
 	}
 	
 	public function Thumbnail() {
 		$Image = $this->Photo();
-		if ( $Image ) 
+		if ($Image) 
 			return $Image->CMSThumbnail();
 		else 
 			return null;
 	}
 	
-	public function DescriptionExcerpt($length = 75) {
+	public function DescriptionExcerpt($length=75) {
 	   	$text = strip_tags($this->Description);
 	   	$length = abs((int)$length);
 	   	if(strlen($text) > $length) {
-	   		$text = preg_replace("/^(.{1,$length})(\s.*|$)/s", '\\1 ...', $text);
+	   		$text = preg_replace("/^(.{1,$length})(\s.*|$)/s", '\\1...', $text);
 	   	}
 	   		return $text;
    	}
 	
 	public function PhotoCropped($x=120,$y=120) {
-		 return $this->Photo()->CroppedImage($x,$y);
+		if($this->Photo()->exists())
+		 	return $this->Photo()->CroppedImage($x,$y);
+		else {
+			if($this->PhotoGallery()->DefaultAlbumCover()->exists()) {
+				return $this->PhotoGallery()->DefaultAlbumCover()->CroppedImage($x,$y);
+			}
+		}
 	}
 	
 	public function Link() {
@@ -89,6 +95,10 @@ class PhotoAlbum extends DataObject {
 
     public function PhotoCount() {
     	return $this->getComponents("PhotoItems")->count();
+    }
+
+    public function getTitle() {
+    	return $this->Name;
     }
 	
 }
