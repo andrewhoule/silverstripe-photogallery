@@ -23,7 +23,7 @@ class PhotoItem extends DataObject {
 	public function canView($Member = null) { return true; }
 	public function canDelete($Member = null) { return true; }
 	
-	private static $default_sort = "SortID DESC";
+	private static $default_sort = "SortID ASC";
 	private static $singular_name = "Photo";
 	private static $plural_name = "Photos";
 	
