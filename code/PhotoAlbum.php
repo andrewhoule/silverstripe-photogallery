@@ -28,7 +28,7 @@ class PhotoAlbum extends DataObject {
 	public function canView($Member = null) { return true; }
 	public function canDelete($Member = null) { return true; }
    
-   	private static $default_sort = "SortID Asc";
+   	private static $default_sort = "SortID DESC";
    
 	public function getCMSFields() {
 		$PhotosGridField = new GridField(
