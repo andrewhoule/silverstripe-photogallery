@@ -42,9 +42,6 @@
 <% end_if %>
 <% if AlbumCount == 1 %>
     <% include PhotoItems %> 
-    <% require javascript(http://code.jquery.com/jquery-1.7.2.min.js) %>
-    <% require javascript(photogallery/prettyPhoto/js/jquery.prettyPhoto.js) %>
-    <% require javascript(photogallery/js/prettyPhoto_init.js) %>
 <% end_if %>
 <% if AlbumCount < 1 %>
     No albums to view yet.
