@@ -58,12 +58,6 @@ class PhotoGallery extends Page {
 class PhotoGallery_Controller extends Page_Controller {
 
    public static function load_requirements() {
-        // Requirements::CSS("photogallery/prettyPhoto/css/prettyPhoto.css");
-        // Requirements::CSS("photogallery/css/photogallery.css");
-        // Requirements::javascript("http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js");
-        // Requirements::javascript("photogallery/prettyPhoto/js/jquery.prettyPhoto.js");
-        // Requirements::javascript("photogallery/js/prettyPhoto_init.js");
-
         Requirements::CSS("photogallery/shadowbox/shadowbox.css");
         Requirements::CSS("photogallery/css/photogallery.css");
         Requirements::javascript("http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js");
