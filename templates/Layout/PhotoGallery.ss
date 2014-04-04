@@ -2,9 +2,9 @@
 <div class="content">$Content</div>
 <% if AlbumCount > 1 %>
     <% if PaginatedAlbums %>
-        <div id="photo-albums">
+        <ul id="photo-albums">
             <% loop PaginatedAlbums %>
-                <div class="photo-album">
+                <li class="photo-album">
                     <div class="photo-album-cover">
                         <a href="$Link" title="View the $Name gallery">
                             <% if PhotoCropped %>
@@ -16,7 +16,7 @@
                         <h4><a href="$Link" title="View the $Name gallery">$Name</a> <span class="photo-count">($PhotoCount)</span></h4>
                         <p>$DescriptionExcerpt(300)</p>
                     </div><!-- photo-album-info -->
-                </div><!-- photo-album -->
+                </li><!-- photo-album -->
             <% end_loop %>
             <% if PaginatedAlbums.MoreThanOnePage %>
                 <% if PaginatedAlbums.NotFirstPage %>
@@ -37,7 +37,7 @@
                     <a class="next" href="$PaginatedAlbums.NextLink">Next</a>
                 <% end_if %>
             <% end_if %>
-        </div><!-- photo-albums -->
+        </ul><!-- photo-albums -->
     <% end_if %>
 <% end_if %>
 <% if AlbumCount == 1 %>
