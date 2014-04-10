@@ -3,24 +3,36 @@
 class PhotoGallery extends Page {
  
     private static $db = array(
-        "AlbumsPerPage" => "Int",
-        "PhotosPerPage" => "Int",
-        "ShowAllPhotoAlbums" => "Boolean"
+        'AlbumsPerPage' => 'Int',
+        'AlbumThumbnailHeight' => 'Int',
+        'AlbumThumbnailWidth' => 'Int',
+        'ShowAllPhotoAlbums' => 'Boolean',
+        'PhotosPerPage' => 'Int',
+        'PhotoThumbnailHeight' => 'Int',
+        'PhotoThumbnailWidth' => 'Int',
+        'PhotoFullHeight' => 'Int',
+        'PhotoFullWidth' => 'Int',
     );
    
     private static $has_one = array (
-        "DefaultAlbumCover" => "Image"
+        'DefaultAlbumCover' => 'Image'
     );
 
     private static $has_many = array (
-        "PhotoAlbums" => "PhotoAlbum",
-        "PhotoItems" => "PhotoItem"
+        'PhotoAlbums' => 'PhotoAlbum',
+        'PhotoItems' => 'PhotoItem'
     );
    
     private static $defaults = array(
-        "AlbumsPerPage" => "6",
-        "PhotosPerPage" => "20",
-        "ShowAllPhotoAlbums" => true
+        'AlbumsPerPage' => '6',
+        'PhotosPerPage' => '20',
+        'ShowAllPhotoAlbums' => true,
+        'AlbumThumbnailWidth' => '200',
+        'AlbumThumbnailHeight' => '200',
+        'PhotoThumbnailWidth' => '150',
+        'PhotoThumbnailHeight' => '150',
+        'PhotoFullWidth' => '700',
+        'PhotoFullHeight' => '700'
     );
    
     private static $icon = "photogallery/images/photogallery";
@@ -46,10 +58,18 @@ class PhotoGallery extends Page {
                 ->addComponent(new GridFieldSortableRows('SortID'))
         );
         $fields->addFieldToTab("Root.Albums", $AlbumsGridField);
-        $fields->addFieldToTab("Root.Config", TextField::create("AlbumsPerPage")->setTitle("Number of Albums Per Page"));
-        $fields->addFieldToTab("Root.Config", TextField::create("PhotosPerPage")->setTitle("Number of Photos Per Page"));
+        $fields->addFieldToTab("Root.Config", HeaderField::create("Album Settings"));
         $fields->addFieldToTab("Root.Config", $DefaultAlbumCoverField);
+        $fields->addFieldToTab("Root.Config", SliderField::create('AlbumsPerPage','Number of Albums Per Page',1,25));
+        $fields->addFieldToTab("Root.Config", SliderField::create("AlbumThumbnailWidth","Album Cover Thumbnail Width",50,400));
+        $fields->addFieldToTab("Root.Config", SliderField::create("AlbumThumbnailHeight","Album Cover Thumbnail Height",50,400));
         $fields->addFieldToTab("Root.Config", CheckboxField::create("ShowAllPhotoAlbums")->setTitle("Show photo album even if it's empty"));
+        $fields->addFieldToTab("Root.Config", HeaderField::create("Photo Settings"));
+        $fields->addFieldToTab("Root.Config", SliderField::create("PhotosPerPage","Number of Photos Per Page",1,50));
+        $fields->addFieldToTab("Root.Config", SliderField::create("PhotoThumbnailWidth","Photo Thumbnail Width",50,400));
+        $fields->addFieldToTab("Root.Config", SliderField::create("PhotoThumbnailHeight","Photo Thumbnail Height",50,400));
+        $fields->addFieldToTab("Root.Config", SliderField::create("PhotoFullWidth","Photo Fullsize Width",400,1200));
+        $fields->addFieldToTab("Root.Config", SliderField::create("PhotoFullHeight","Photo Fullsize Height",400,1200));
         return $fields;
     }
  

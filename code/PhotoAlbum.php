@@ -77,6 +77,12 @@ class PhotoAlbum extends DataObject {
    	}
 	
 	public function PhotoCropped($x=120,$y=120) {
+		$width = $this->PhotoGallery()->AlbumThumbnailWidth;
+		$height = $this->PhotoGallery()->AlbumThumbnailWidth;
+		if($width != 0) 
+			$x = $width;
+		if($height != 0) 
+			$y = $height;
 		if($this->Photo()->exists())
 		 	return $this->Photo()->CroppedImage($x,$y);
 		else {

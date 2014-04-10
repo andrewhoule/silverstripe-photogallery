@@ -46,10 +46,12 @@ class PhotoItem extends DataObject {
 		$imgfield = UploadField::create("Photo");
 		$imgfield->folderName = "PhotoGallery"; 
       	$imgfield->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
+      	$captionfield = TextField::create("Caption");
+      	$captionfield->setMaxLength("75");
 		return new FieldList(
 			$albumsdropdown,
 		   	$imgfield,
-			TextField::create("Caption")
+			$captionfield
 		);
 	}
 	
@@ -81,10 +83,22 @@ class PhotoItem extends DataObject {
 	}
 	
 	public function PhotoCropped($x=120,$y=120) {
+		$width = $this->getComponent('PhotoAlbum')->PhotoGallery()->PhotoThumbnailWidth;
+		$height = $this->getComponent('PhotoAlbum')->PhotoGallery()->PhotoThumbnailHeight;
+		if($width != 0) 
+			$x = $width;
+		if($height != 0) 
+			$y = $height;
 		return $this->Photo()->CroppedImage($x,$y);
 	}
 	
 	public function PhotoSized($x=700,$y=700) {
+		$width = $this->getComponent('PhotoAlbum')->PhotoGallery()->PhotoFullWidth;
+		$height = $this->getComponent('PhotoAlbum')->PhotoGallery()->PhotoFullHeight;
+		if($width != 0) 
+			$x = $width;
+		if($height != 0) 
+			$y = $height;
 		return $this->Photo()->SetRatioSize($x,$y);
 	}
 
