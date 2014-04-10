@@ -1,4 +1,5 @@
 Shadowbox.init({
     handleOversize: "drag",
-    modal: false
+    modal: false,
+    overlayOpacity: .8
 });
