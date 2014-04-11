@@ -2,8 +2,10 @@
     <ul id="album-photos">
         <% loop PaginatedPhotos %>
             <li class="album-photo">
-                <a href="$PhotoSized(800,800).URL" rel="shadowbox[Gallery]" title="$Caption"><img src="$PhotoCropped(125,125).URL" alt="$Caption" /></a>
-                <span></span>
+                <a href="$PhotoSized(800,800).URL" rel="shadowbox[Gallery]" title="$Caption">
+                    <img src="$PhotoCropped(125,125).URL" alt="$Caption" />
+                    <span></span>
+                </a>
             </li>
         <% end_loop %>
     </ul>
