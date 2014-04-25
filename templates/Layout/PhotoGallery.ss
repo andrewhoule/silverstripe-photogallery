@@ -18,26 +18,35 @@
                     </div><!-- photo-album-info -->
                 </li><!-- photo-album -->
             <% end_loop %>
-            <% if PaginatedAlbums.MoreThanOnePage %>
-                <% if PaginatedAlbums.NotFirstPage %>
-                    <a class="prev" href="$PaginatedAlbums.PrevLink">Prev</a>
-                <% end_if %>
-                <% loop PaginatedAlbums.Pages %>
-                    <% if CurrentBool %>
-                        $PageNum
-                    <% else %>
-                        <% if Link %>
-                            <a href="$Link">$PageNum</a>
-                        <% else %>
-                            ...
-                        <% end_if %>
-                    <% end_if %>
-                <% end_loop %>
-                <% if PaginatedAlbums.NotLastPage %>
-                    <a class="next" href="$PaginatedAlbums.NextLink">Next</a>
-                <% end_if %>
-            <% end_if %>
         </ul><!-- photo-albums -->
+        <% if PaginatedAlbums.MoreThanOnePage %>    
+            <div class="pagination">
+                <div class="page-totals">
+                    <p>Page:&nbsp;&nbsp;<% loop PaginatedAlbums.Pages %><% if CurrentBool %>$PageNum<% end_if %><% end_loop %> of $PaginatedAlbums.Pages.TotalItems</p>
+                </div><!-- .page-totals -->
+                <div class="page-numbers">
+                    <ul>
+                        <% if PaginatedAlbums.NotFirstPage %>
+                            <li class="previous"><a title="<% _t('VIEWPREVIOUSPAGE','View the previous page') %>" href="$PaginatedAlbums.PrevLink"><% _t('PREVIOUS','&larr;') %></a></li>                
+                        <% else %>  
+                            <li class="previous-off"><% _t('PREVIOUS','&larr;') %></li>
+                        <% end_if %>
+                        <% loop PaginatedAlbums.Pages %>
+                            <% if CurrentBool %>
+                                <li class="active">$PageNum</li>
+                            <% else %>
+                                <li><a href="$Link" title="<% sprintf(_t('VIEWPAGENUMBER','View page number %s'),$PageNum) %>">$PageNum</a></li>                
+                            <% end_if %>
+                        <% end_loop %>
+                        <% if PaginatedAlbums.NotLastPage %>
+                            <li class="next"><a title="<% _t('VIEWNEXTPAGE', 'View the next page') %>" href="$PaginatedAlbums.NextLink"><% _t('NEXT','&rarr;') %></a></li>
+                        <% else %>
+                            <li class="next-off"><% _t('NEXT','&rarr;') %> </li>                
+                        <% end_if %>
+                    </ul>
+                </div><!-- page-numbers -->       
+            </div><!-- .pagination -->
+        <% end_if %>
     <% end_if %>
 <% end_if %>
 <% if AlbumCount == 1 %>
