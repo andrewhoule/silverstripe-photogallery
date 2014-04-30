@@ -44,6 +44,7 @@ class PhotoAlbum extends DataObject {
                 ->addComponent(new GridFieldEditButton())
                 ->addComponent(new GridFieldDeleteAction())
                 ->addComponent(new GridFieldDetailForm())
+                ->addComponent(new GridFieldFilterHeader())
                 ->addComponent(new GridFieldBulkManager())
                 ->addComponent(new GridFieldBulkImageUpload())
                 ->addComponent(new GridFieldSortableRows("SortID"))

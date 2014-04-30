@@ -55,6 +55,7 @@ class PhotoGallery extends Page {
                 ->addComponent(new GridFieldEditButton())
                 ->addComponent(new GridFieldDeleteAction())
                 ->addComponent(new GridFieldDetailForm())
+                ->addComponent(new GridFieldFilterHeader())
                 ->addComponent(new GridFieldSortableRows('SortID'))
         );
         $fields->addFieldToTab("Root.Albums", $AlbumsGridField);
