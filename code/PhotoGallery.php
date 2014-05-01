@@ -11,7 +11,7 @@ class PhotoGallery extends Page {
         'PhotoThumbnailHeight' => 'Int',
         'PhotoThumbnailWidth' => 'Int',
         'PhotoFullHeight' => 'Int',
-        'PhotoFullWidth' => 'Int',
+        'PhotoFullWidth' => 'Int'
     );
    
     private static $has_one = array (
