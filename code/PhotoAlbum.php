@@ -46,7 +46,7 @@ class PhotoAlbum extends DataObject {
                 ->addComponent(new GridFieldDetailForm())
                 ->addComponent(new GridFieldFilterHeader())
                 ->addComponent(new GridFieldBulkManager())
-                ->addComponent(new GridFieldBulkImageUpload())
+                ->addComponent(new GridFieldBulkUpload())
                 ->addComponent(new GridFieldSortableRows("SortID"))
         );
         $ImageField = UploadField::create("Photo")->setTitle("Gallery Cover Photo");
