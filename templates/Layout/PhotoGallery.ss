@@ -50,6 +50,12 @@
     <% end_if %>
 <% end_if %>
 <% if AlbumCount == 1 %>
+    <% loop PaginatedAlbums %>
+        <div class="photo-album-info">
+            <h4>$Name</h4>
+            <p>$DescriptionExcerpt(300)</p>
+        </div><!-- photo-album-info -->
+    <% end_loop %>
     <% include PhotoItems %> 
 <% end_if %>
 <% if AlbumCount < 1 %>
