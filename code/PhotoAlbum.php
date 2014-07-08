@@ -3,14 +3,14 @@
 class PhotoAlbum extends DataObject { 
 	
 	private static $db = array (
-	   	"SortID" => "Int",
+	   "SortID" => "Int",
 		"Name" => "Text",
 		"Description" => "HTMLText"
 	);
 	
 	private static $has_one = array (
 		"PhotoGallery" => "PhotoGallery",
-		"Photo" => "Image"
+		"AlbumCover" => "Image"
 	);
 	
 	private static $has_many = array (
@@ -31,26 +31,33 @@ class PhotoAlbum extends DataObject {
    	private static $default_sort = "SortID ASC";
    
 	public function getCMSFields() {
-		$PhotosGridField = new GridField(
-            "Photos",
-            "Photo",
-            $this->PhotoItems(),
-            GridFieldConfig::create()
-                ->addComponent(new GridFieldToolbarHeader())
-                ->addComponent(new GridFieldAddNewButton("toolbar-header-right"))
-                ->addComponent(new GridFieldSortableHeader())
-                ->addComponent(new GridFieldDataColumns())
-                ->addComponent(new GridFieldPaginator(50))
-                ->addComponent(new GridFieldEditButton())
-                ->addComponent(new GridFieldDeleteAction())
-                ->addComponent(new GridFieldDetailForm())
-                ->addComponent(new GridFieldFilterHeader())
-                ->addComponent(new GridFieldBulkUpload())
-                ->addComponent(new GridFieldSortableRows("SortID"))
-        );
-        $ImageField = UploadField::create("Photo")->setTitle("Gallery Cover Photo");
+
+
+		if($this->ID == 0) {
+			$PhotosGridField = TextField::create('PhotosDisclaimer')->setTitle('Photos')->setDisabled(true)->setValue('You can add photos once you have saved the record for the first time.');
+		}
+		else {
+			$PhotosGridField = new GridField(
+	         "PhotoItems",
+	         "Photos",
+	         $this->PhotoItems(),
+	         GridFieldConfig::create()
+					->addComponent(new GridFieldToolbarHeader())
+					->addComponent(new GridFieldAddNewButton("toolbar-header-right"))
+					->addComponent(new GridFieldSortableHeader())
+					->addComponent(new GridFieldDataColumns())
+					->addComponent(new GridFieldPaginator(50))
+					->addComponent(new GridFieldEditButton())
+					->addComponent(new GridFieldDeleteAction())
+					->addComponent(new GridFieldDetailForm())
+					->addComponent(new GridFieldFilterHeader())
+					->addComponent(new GridFieldBulkUpload())
+					->addComponent(new GridFieldSortableRows("SortID"))
+	      );
+		}
+      $ImageField = UploadField::create("AlbumCover")->setTitle("Album Cover Photo");
     	$ImageField->folderName = "PhotoGallery"; 
-      	$ImageField->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
+      $ImageField->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
 	  	return new FieldList(
 			TextField::create("Name"),
 			TextareaField::create("Description"),
@@ -60,7 +67,7 @@ class PhotoAlbum extends DataObject {
 	}
 	
 	public function Thumbnail() {
-		$Image = $this->Photo();
+		$Image = $this->AlbumCover();
 		if ($Image) 
 			return $Image->CMSThumbnail();
 		else 
@@ -83,8 +90,8 @@ class PhotoAlbum extends DataObject {
 			$x = $width;
 		if($height != 0) 
 			$y = $height;
-		if($this->Photo()->exists())
-		 	return $this->Photo()->CroppedImage($x,$y);
+		if($this->AlbumCover()->exists())
+		 	return $this->AlbumCover()->CroppedImage($x,$y);
 		else {
 			if($this->PhotoGallery()->DefaultAlbumCover()->exists()) {
 				return $this->PhotoGallery()->DefaultAlbumCover()->CroppedImage($x,$y);

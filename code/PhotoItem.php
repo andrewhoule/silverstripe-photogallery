@@ -3,20 +3,20 @@
 class PhotoItem extends DataObject { 
 	
 	private static $db = array (
-	   	"SortID" => "Int",
+	   "SortID" => "Int",
 		"Caption" => "Text"
 	);
 	
 	private static $has_one = array (
+		"Photo" => "Image",
 		"PhotoGallery" => "PhotoGallery",
-		"PhotoAlbum" => "PhotoAlbum",
-		"Photo" => "Image"
+		"PhotoAlbum" => "PhotoAlbum"
 	);
 
 	private static $summary_fields = array (
-      	"Thumbnail" => "Photo",
-      	"CaptionExcerpt" => "Caption"
-   	);
+   	"Thumbnail" => "Photo",
+   	"CaptionExcerpt" => "Caption"
+	);
 
 	public function canCreate($Member = null) { return true; }
 	public function canEdit($Member = null) { return true; }
