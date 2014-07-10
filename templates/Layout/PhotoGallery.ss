@@ -21,9 +21,6 @@
         </ul><!-- photo-albums -->
         <% if PaginatedAlbums.MoreThanOnePage %>    
             <div class="pagination">
-                <div class="page-totals">
-                    <p>Page:&nbsp;&nbsp;<% loop PaginatedAlbums.Pages %><% if CurrentBool %>$PageNum<% end_if %><% end_loop %> of $PaginatedAlbums.Pages.TotalItems</p>
-                </div><!-- .page-totals -->
                 <div class="page-numbers">
                     <ul>
                         <% if PaginatedAlbums.NotFirstPage %>

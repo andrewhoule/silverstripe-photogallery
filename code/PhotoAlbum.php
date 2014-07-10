@@ -63,7 +63,7 @@ class PhotoAlbum extends DataObject {
 		}
 		else {
 			$BulkUploadComponent = new GridFieldBulkUpload();
-			$BulkUploadComponent->setConfig('folderName',$this->PageFolder() . "/" . $this->AlbumFolder());
+			$BulkUploadComponent->setConfig('folderName',"photogallery/" . $this->PageFolder() . "/" . $this->AlbumFolder());
 			$PhotosGridField = new GridField(
 	         "PhotoItems",
 	         "Photos",
@@ -82,7 +82,7 @@ class PhotoAlbum extends DataObject {
 					->addComponent(new GridFieldSortableRows("SortID"))
 	      );
 	      $ImageField = UploadField::create("AlbumCover")->setTitle("Album Cover Photo");
-	    	$ImageField->folderName = $this->PageFolder(); 
+	    	$ImageField->folderName = "photogallery/" . $this->PageFolder(); 
 	      $ImageField->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
 		}
 	  	return new FieldList(
