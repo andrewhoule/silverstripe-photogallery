@@ -28,15 +28,42 @@ class PhotoAlbum extends DataObject {
 	public function canView($Member = null) { return true; }
 	public function canDelete($Member = null) { return true; }
    
-   	private static $default_sort = "SortID ASC";
+   private static $default_sort = "SortID ASC";
+
+   public function PageFolder() {
+   	if($name = $this->getComponent('PhotoGallery')->MenuTitle) {
+   		$string = strtolower($name);
+			$string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
+			$string = preg_replace("/[\s-]+/", " ", $string);
+			$string = preg_replace("/[\s_]/", "-", $string);
+			return $string;
+   	}
+   	else {
+   		return "photogallery";
+   	}
+   }
+
+   public function AlbumFolder() {
+   	if($name = $this->Name) {
+   		$string = strtolower($name);
+			$string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
+			$string = preg_replace("/[\s-]+/", " ", $string);
+			$string = preg_replace("/[\s_]/", "-", $string);
+			return $string;
+   	}
+   	else {
+   		return "album";
+   	}
+   }
    
 	public function getCMSFields() {
-
-
 		if($this->ID == 0) {
 			$PhotosGridField = TextField::create('PhotosDisclaimer')->setTitle('Photos')->setDisabled(true)->setValue('You can add photos once you have saved the record for the first time.');
+			$ImageField = TextField::create('AlbumCoverDisclaimer')->setTitle('Album Cover Photo')->setDisabled(true)->setValue('You can add an album cover once you have saved the record for the first time.');
 		}
 		else {
+			$BulkUploadComponent = new GridFieldBulkUpload();
+			$BulkUploadComponent->setConfig('folderName',$this->PageFolder() . "/" . $this->AlbumFolder());
 			$PhotosGridField = new GridField(
 	         "PhotoItems",
 	         "Photos",
@@ -51,13 +78,13 @@ class PhotoAlbum extends DataObject {
 					->addComponent(new GridFieldDeleteAction())
 					->addComponent(new GridFieldDetailForm())
 					->addComponent(new GridFieldFilterHeader())
-					->addComponent(new GridFieldBulkUpload())
+					->addComponent($BulkUploadComponent)
 					->addComponent(new GridFieldSortableRows("SortID"))
 	      );
+	      $ImageField = UploadField::create("AlbumCover")->setTitle("Album Cover Photo");
+	    	$ImageField->folderName = $this->PageFolder(); 
+	      $ImageField->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
 		}
-      $ImageField = UploadField::create("AlbumCover")->setTitle("Album Cover Photo");
-    	$ImageField->folderName = "PhotoGallery"; 
-      $ImageField->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
 	  	return new FieldList(
 			TextField::create("Name"),
 			TextareaField::create("Description"),
