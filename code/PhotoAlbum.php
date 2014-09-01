@@ -85,12 +85,12 @@ class PhotoAlbum extends DataObject {
 	    	$ImageField->folderName = "photogallery/" . $this->PageFolder(); 
 	      $ImageField->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
 		}
-	  	return new FieldList(
-			TextField::create("Name"),
-			TextareaField::create("Description"),
-			$ImageField,
-			$PhotosGridField
-		);
+	      $Fields = new FieldList(
+                TextField::create("Name"), TextareaField::create("Description"), $ImageField, $PhotosGridField
+	      );
+	      $this->extend('updateCMSFields', $Fields);
+
+	      return $Fields;
 	}
 	
 	public function Thumbnail() {
