@@ -142,16 +142,19 @@ class PhotoAlbum extends DataObject {
     }
 
     public function Photos() {
-      $photoset = new ArrayList();
-      $photos = PhotoItem::get()->filter("PhotoAlbumID",$this->ID);
-      if($photos) {
-         foreach($photos AS $photo) {
-            if($photo->getComponent("Photo")->exists()) {
-               $photoset->push($photo);
+	$photoset = new ArrayList();
+        $this->extend('GetItems', $photoset);
+        if (!$photoset->count()) {
+            $photos = PhotoItem::get()->filter("PhotoAlbumID", $this->ID);
+            if ($photos) {
+                foreach ($photos AS $photo) {
+                    if ($photo->getComponent("Photo")->exists()) {
+                        $photoset->push($photo);
+                    }
+                }
             }
-         }
-      }
-      return $photoset;
+        }
+        return $photoset;
    }
    
    public function PaginatedPhotos() {
