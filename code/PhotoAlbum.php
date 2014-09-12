@@ -63,7 +63,7 @@ class PhotoAlbum extends DataObject {
 		}
 		else {
 			$BulkUploadComponent = new GridFieldBulkUpload();
-			$BulkUploadComponent->setConfig('folderName',"photogallery/" . $this->PageFolder() . "/" . $this->AlbumFolder());
+			$BulkUploadComponent->setUfSetup('setFolderName',"photogallery/" . $this->PageFolder() . "/" . $this->AlbumFolder());
 			$PhotosGridField = new GridField(
 	         "PhotoItems",
 	         "Photos",
