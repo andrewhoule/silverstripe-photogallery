@@ -1,5 +1,5 @@
 <h1 class="photo-gallery-name">$Title</h1>
-<div class="content">$Content</div>
+<% if $Content %>$Content<% end_if %>
 <% if AlbumCount > 1 %>
     <% if PaginatedAlbums %>
         <ul id="photo-albums">
