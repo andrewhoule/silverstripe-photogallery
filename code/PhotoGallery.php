@@ -81,7 +81,7 @@ class PhotoGallery_Controller extends Page_Controller {
    public static function load_requirements() {
         Requirements::CSS("photogallery/shadowbox/shadowbox.css");
         Requirements::CSS("photogallery/css/photogallery.css");
-        Requirements::javascript("http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js");
+        Requirements::javascript(FRAMEWORK_DIR .'/thirdparty/jquery/jquery.js');
         Requirements::javascript("photogallery/shadowbox/shadowbox.js");
         Requirements::javascript("photogallery/js/shadowbox_init.js");
     }
