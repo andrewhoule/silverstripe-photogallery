@@ -12,11 +12,11 @@ Simple Photo Gallery
 * SliderField Module - https://github.com/tractorcow/silverstripe-sliderfield
 
 ## Installation
-Via Composer run "composer require andrewhoule/silverstripe-photogallery dev-master" or the following...
+Via Composer run "composer require andrewhoule/silverstripe-photogallery dev-master" then go to http://yoursite.com/dev/build/?flush=1 or the following...
 * Requires SortableGridField module, GridFieldBulkEditingTools module, and SliderField module (see above).
 * Add the photogallery folder to your site's root.
 * Run http://yoursite.com/dev/build/?flush=1
-* Create a new photo gallery page and enjoy.
+* Create a new photo gallery page, set config options, add albums/photos.
 
 ## Todo
 * Add support for video embeds (from youtube/vimeo)
