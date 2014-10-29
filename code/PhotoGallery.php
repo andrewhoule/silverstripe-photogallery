@@ -150,9 +150,15 @@ class PhotoGallery_Controller extends Page_Controller {
 		return $this->PhotoAlbums()->count();
 	}
 
+<<<<<<< HEAD
 	public function Photos() {
 		return $this->getAlbum()->Photos();
 	}
+=======
+    public function Photos() {
+        return $this->getAlbum()->Photos();
+    }
+>>>>>>> f4272cd9042000dd291ab4f6827d4857e1ba829b
    
 	public function PaginatedPhotos() {
 		$paginatedphotos = new PaginatedList($this->Photos(), $this->request);
