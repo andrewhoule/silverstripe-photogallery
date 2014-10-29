@@ -3,19 +3,19 @@
 class PhotoItem extends DataObject { 
 	
 	private static $db = array (
-	   "SortID" => "Int",
-		"Caption" => "Text"
+	   'SortID' => 'Int',
+		'Caption' => 'Text'
 	);
 	
 	private static $has_one = array (
-		"Photo" => "Image",
-		"PhotoGallery" => "PhotoGallery",
-		"PhotoAlbum" => "PhotoAlbum"
+		'Photo' => 'Image',
+		'PhotoGallery' => 'PhotoGallery',
+		'PhotoAlbum' => 'PhotoAlbum'
 	);
 
 	private static $summary_fields = array (
-   	"Thumbnail" => "Photo",
-   	"CaptionExcerpt" => "Caption"
+   	'Thumbnail' => 'Photo',
+   	'CaptionExcerpt' => 'Caption'
 	);
 
 	public function canCreate($Member = null) { return true; }
@@ -23,9 +23,9 @@ class PhotoItem extends DataObject {
 	public function canView($Member = null) { return true; }
 	public function canDelete($Member = null) { return true; }
 	
-	private static $default_sort = "SortID ASC";
-	private static $singular_name = "Photo";
-	private static $plural_name = "Photos";
+	private static $default_sort = 'SortID ASC';
+	private static $singular_name = 'Photo';
+	private static $plural_name = 'Photos';
 	
 	public function getCMSFields() {
 		if($this->ID == 0) {
@@ -45,17 +45,23 @@ class PhotoItem extends DataObject {
 		}
 		$imgfield = UploadField::create("Photo");
 		$imgfield->folderName = "PhotoGallery"; 
-      	$imgfield->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
-      	$captionfield = TextField::create("Caption");
-      	$captionfield->setMaxLength("75");
-		return new FieldList(
-			$albumsdropdown,
-		   	$imgfield,
-			$captionfield
-		);
+      $imgfield->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
+      $captionfield = TextField::create("Caption");
+      $captionfield->setMaxLength("75");
+  		$Fields = new FieldList(
+      	$albumsdropdown,
+      	$imgfield,
+      	$captionfield
+      );
+      $this->extend('updateCMSFields',$Fields);
+      return $Fields;
 	}
 	
 	public function Thumbnail() {
+		$extThumb = $this->extend('Thumbnail');
+      if ($extThumb && count($extThumb)) {
+      	return end($extThumb);
+      }
 		$Image = $this->Photo();
 		if ($Image) 
 			return $Image->CMSThumbnail();
@@ -112,5 +118,3 @@ class PhotoItem extends DataObject {
     }
 	
 }
-
-?>
