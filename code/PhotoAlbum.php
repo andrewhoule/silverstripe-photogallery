@@ -28,11 +28,7 @@ class PhotoAlbum extends DataObject {
 	public function canView($Member = null) { return true; }
 	public function canDelete($Member = null) { return true; }
 
-<<<<<<< HEAD
    private static $default_sort = 'SortID ASC';
-=======
-   private static $default_sort = "SortID ASC";
->>>>>>> f4272cd9042000dd291ab4f6827d4857e1ba829b
 
    public function PageFolder() {
    	if($name = $this->getComponent('PhotoGallery')->MenuTitle) {
@@ -89,7 +85,6 @@ class PhotoAlbum extends DataObject {
 	    	$ImageField->folderName = "photogallery/" . $this->PageFolder();
 	      $ImageField->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
 		}
-<<<<<<< HEAD
 	   $Fields = new FieldList(
          TextField::create("Name"),
          TextareaField::create("Description"),
@@ -98,14 +93,6 @@ class PhotoAlbum extends DataObject {
 	   );
 	   $this->extend('updateCMSFields',$Fields);
       return $Fields;
-=======
-	      $Fields = new FieldList(
-                TextField::create("Name"), TextareaField::create("Description"), $ImageField, $PhotosGridField
-	      );
-	      $this->extend('updateCMSFields', $Fields);
-
-	      return $Fields;
->>>>>>> f4272cd9042000dd291ab4f6827d4857e1ba829b
 	}
 
 	public function Thumbnail() {
@@ -117,7 +104,6 @@ class PhotoAlbum extends DataObject {
 	}
 
 	public function DescriptionExcerpt($length=75) {
-<<<<<<< HEAD
 	  	$text = strip_tags($this->Description);
 	  	$length = abs((int)$length);
 	  	if(strlen($text) > $length) {
@@ -125,15 +111,6 @@ class PhotoAlbum extends DataObject {
 	  	}
 		return $text;
    }
-=======
-	   	$text = strip_tags($this->Description);
-	   	$length = abs((int)$length);
-	   	if(strlen($text) > $length) {
-	   		$text = preg_replace("/^(.{1,$length})(\s.*|$)/s", '\\1...', $text);
-	   	}
-	   		return $text;
-   	}
->>>>>>> f4272cd9042000dd291ab4f6827d4857e1ba829b
 
 	public function PhotoCropped($x=120,$y=120) {
 		$width = $this->PhotoGallery()->AlbumThumbnailWidth;
@@ -150,16 +127,6 @@ class PhotoAlbum extends DataObject {
 			}
 		}
 	}
-<<<<<<< HEAD
-=======
-
-	public function Link() {
-        if($PhotoGallery = $this->PhotoGallery()) {
-            $Action = "album/" . $this->ID;
-            return $PhotoGallery->Link($Action);
-        }
-    }
->>>>>>> f4272cd9042000dd291ab4f6827d4857e1ba829b
 
 	public function Link() {
       if($PhotoGallery = $this->PhotoGallery()) {
@@ -168,7 +135,6 @@ class PhotoAlbum extends DataObject {
       }
    }
 
-<<<<<<< HEAD
    public function Photos() {
 		$photoset = new ArrayList();
       $this->extend('GetItems', $photoset);
@@ -193,39 +159,10 @@ class PhotoAlbum extends DataObject {
     	return $this->Name;
    }
 
-=======
-    public function getTitle() {
-    	return $this->Name;
-    }
-
-    public function Photos() {
-	$photoset = new ArrayList();
-        $this->extend('GetItems', $photoset);
-        if (!$photoset->count()) {
-            $photos = PhotoItem::get()->filter("PhotoAlbumID", $this->ID);
-            if ($photos) {
-                foreach ($photos AS $photo) {
-                    if ($photo->getComponent("Photo")->exists()) {
-                        $photoset->push($photo);
-                    }
-                }
-            }
-        }
-        return $photoset;
-   }
-
->>>>>>> f4272cd9042000dd291ab4f6827d4857e1ba829b
    public function PaginatedPhotos() {
       $paginatedphotos = new PaginatedList($this->Photos(), $this->request);
       $paginatedphotos->setPageLength($this->PhotosPerPage);
       return $paginatedphotos;
    }
-<<<<<<< HEAD
 
 }
-=======
-
-}
-
-?>
->>>>>>> f4272cd9042000dd291ab4f6827d4857e1ba829b

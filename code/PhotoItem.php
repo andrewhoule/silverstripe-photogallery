@@ -45,7 +45,6 @@ class PhotoItem extends DataObject {
 		}
 		$imgfield = UploadField::create("Photo");
 		$imgfield->folderName = "PhotoGallery"; 
-<<<<<<< HEAD
       $imgfield->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
       $captionfield = TextField::create("Caption");
       $captionfield->setMaxLength("75");
@@ -56,29 +55,13 @@ class PhotoItem extends DataObject {
       );
       $this->extend('updateCMSFields',$Fields);
       return $Fields;
-=======
-      	$imgfield->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
-      	$captionfield = TextField::create("Caption");
-      	$captionfield->setMaxLength("75");
-  	$Fields                                      = new FieldList(
-                $albumsdropdown, $imgfield, $captionfield
-        );
-        $this->extend('updateCMSFields', $Fields);
-        return $Fields;
->>>>>>> f4272cd9042000dd291ab4f6827d4857e1ba829b
 	}
 	
 	public function Thumbnail() {
 		$extThumb = $this->extend('Thumbnail');
-<<<<<<< HEAD
       if ($extThumb && count($extThumb)) {
       	return end($extThumb);
       }
-=======
-        	if ($extThumb && count($extThumb)) {
-            		return end($extThumb);
-        	}
->>>>>>> f4272cd9042000dd291ab4f6827d4857e1ba829b
 		$Image = $this->Photo();
 		if ($Image) 
 			return $Image->CMSThumbnail();
@@ -134,10 +117,4 @@ class PhotoItem extends DataObject {
     	return $this->Caption;
     }
 	
-<<<<<<< HEAD
 }
-=======
-}
-
-?>
->>>>>>> f4272cd9042000dd291ab4f6827d4857e1ba829b
