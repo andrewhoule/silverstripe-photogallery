@@ -1,22 +1,22 @@
 <?php
 
-class PhotoAlbum extends DataObject { 
-	
+class PhotoAlbum extends DataObject {
+
 	private static $db = array (
 	   "SortID" => "Int",
 		"Name" => "Text",
 		"Description" => "HTMLText"
 	);
-	
+
 	private static $has_one = array (
 		"PhotoGallery" => "PhotoGallery",
 		"AlbumCover" => "Image"
 	);
-	
+
 	private static $has_many = array (
 		"PhotoItems" => "PhotoItem"
 	);
-	
+
 	private static $summary_fields = array (
 		"Thumbnail" => "Cover Photo",
 		"Name" => "Name",
@@ -27,7 +27,7 @@ class PhotoAlbum extends DataObject {
 	public function canEdit($Member = null) { return true; }
 	public function canView($Member = null) { return true; }
 	public function canDelete($Member = null) { return true; }
-   
+
    private static $default_sort = "SortID ASC";
 
    public function PageFolder() {
@@ -55,7 +55,7 @@ class PhotoAlbum extends DataObject {
    		return "album";
    	}
    }
-   
+
 	public function getCMSFields() {
 		if($this->ID == 0) {
 			$PhotosGridField = TextField::create('PhotosDisclaimer')->setTitle('Photos')->setDisabled(true)->setValue('You can add photos once you have saved the record for the first time.');
@@ -82,25 +82,25 @@ class PhotoAlbum extends DataObject {
 					->addComponent(new GridFieldSortableRows("SortID"))
 	      );
 	      $ImageField = UploadField::create("AlbumCover")->setTitle("Album Cover Photo");
-	    	$ImageField->folderName = "photogallery/" . $this->PageFolder(); 
+	    	$ImageField->folderName = "photogallery/" . $this->PageFolder();
 	      $ImageField->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
 		}
-	  	return new FieldList(
-			TextField::create("Name"),
-			TextareaField::create("Description"),
-			$ImageField,
-			$PhotosGridField
-		);
+	      $Fields = new FieldList(
+                TextField::create("Name"), TextareaField::create("Description"), $ImageField, $PhotosGridField
+	      );
+	      $this->extend('updateCMSFields', $Fields);
+
+	      return $Fields;
 	}
-	
+
 	public function Thumbnail() {
 		$Image = $this->AlbumCover();
-		if ($Image) 
+		if ($Image)
 			return $Image->CMSThumbnail();
-		else 
+		else
 			return null;
 	}
-	
+
 	public function DescriptionExcerpt($length=75) {
 	   	$text = strip_tags($this->Description);
 	   	$length = abs((int)$length);
@@ -109,13 +109,13 @@ class PhotoAlbum extends DataObject {
 	   	}
 	   		return $text;
    	}
-	
+
 	public function PhotoCropped($x=120,$y=120) {
 		$width = $this->PhotoGallery()->AlbumThumbnailWidth;
 		$height = $this->PhotoGallery()->AlbumThumbnailWidth;
-		if($width != 0) 
+		if($width != 0)
 			$x = $width;
-		if($height != 0) 
+		if($height != 0)
 			$y = $height;
 		if($this->AlbumCover()->exists())
 		 	return $this->AlbumCover()->CroppedImage($x,$y);
@@ -125,11 +125,11 @@ class PhotoAlbum extends DataObject {
 			}
 		}
 	}
-	
+
 	public function Link() {
         if($PhotoGallery = $this->PhotoGallery()) {
             $Action = "album/" . $this->ID;
-            return $PhotoGallery->Link($Action);   
+            return $PhotoGallery->Link($Action);
         }
     }
 
@@ -142,24 +142,27 @@ class PhotoAlbum extends DataObject {
     }
 
     public function Photos() {
-      $photoset = new ArrayList();
-      $photos = PhotoItem::get()->filter("PhotoAlbumID",$this->ID);
-      if($photos) {
-         foreach($photos AS $photo) {
-            if($photo->getComponent("Photo")->exists()) {
-               $photoset->push($photo);
+	$photoset = new ArrayList();
+        $this->extend('GetItems', $photoset);
+        if (!$photoset->count()) {
+            $photos = PhotoItem::get()->filter("PhotoAlbumID", $this->ID);
+            if ($photos) {
+                foreach ($photos AS $photo) {
+                    if ($photo->getComponent("Photo")->exists()) {
+                        $photoset->push($photo);
+                    }
+                }
             }
-         }
-      }
-      return $photoset;
+        }
+        return $photoset;
    }
-   
+
    public function PaginatedPhotos() {
       $paginatedphotos = new PaginatedList($this->Photos(), $this->request);
       $paginatedphotos->setPageLength($this->PhotosPerPage);
       return $paginatedphotos;
    }
-	
+
 }
 
 ?>

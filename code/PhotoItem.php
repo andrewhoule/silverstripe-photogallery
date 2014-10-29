@@ -48,14 +48,18 @@ class PhotoItem extends DataObject {
       	$imgfield->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
       	$captionfield = TextField::create("Caption");
       	$captionfield->setMaxLength("75");
-		return new FieldList(
-			$albumsdropdown,
-		   	$imgfield,
-			$captionfield
-		);
+  	$Fields                                      = new FieldList(
+                $albumsdropdown, $imgfield, $captionfield
+        );
+        $this->extend('updateCMSFields', $Fields);
+        return $Fields;
 	}
 	
 	public function Thumbnail() {
+		$extThumb = $this->extend('Thumbnail');
+        	if ($extThumb && count($extThumb)) {
+            		return end($extThumb);
+        	}
 		$Image = $this->Photo();
 		if ($Image) 
 			return $Image->CMSThumbnail();
