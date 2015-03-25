@@ -164,5 +164,13 @@ class PhotoAlbum extends DataObject {
       $paginatedphotos->setPageLength($this->PhotosPerPage);
       return $paginatedphotos;
    }
+   
+   public function onBeforeDelete() {
+      $photos = PhotoItem::get()->filter("PhotoAlbumID", $this->ID);
+      if ($photos) {
+            $photos->removeAll();
+      }
+      return parent::onBeforeDelete();
+   }
 
 }
