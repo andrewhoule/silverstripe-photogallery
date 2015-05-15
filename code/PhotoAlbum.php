@@ -28,9 +28,9 @@ class PhotoAlbum extends DataObject {
   public function canView($Member = null) { return true; }
   public function canDelete($Member = null) { return true; }
 
-   private static $default_sort = 'SortID ASC';
+  private static $default_sort = 'SortID ASC';
 
-   public function PageFolder() {
+  public function PageFolder() {
     if($name = $this->getComponent('PhotoGallery')->MenuTitle) {
       $string = strtolower($name);
       $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
@@ -41,9 +41,9 @@ class PhotoAlbum extends DataObject {
     else {
       return "photogallery";
     }
-   }
+  }
 
-   public function AlbumFolder() {
+  public function AlbumFolder() {
     if($name = $this->Name) {
       $string = strtolower($name);
       $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
@@ -54,7 +54,7 @@ class PhotoAlbum extends DataObject {
     else {
       return "album";
     }
-   }
+  }
 
   public function getCMSFields() {
     if($this->ID == 0) {
@@ -65,10 +65,10 @@ class PhotoAlbum extends DataObject {
       $BulkUploadComponent = new GridFieldBulkUpload();
       $BulkUploadComponent->setUfSetup('setFolderName',"photogallery/" . $this->PageFolder() . "/" . $this->AlbumFolder());
       $PhotosGridField = new GridField(
-           "PhotoItems",
-           "Photos",
-           $this->PhotoItems(),
-           GridFieldConfig::create()
+        'PhotoItems',
+        'Photos',
+        $this->PhotoItems(),
+        GridFieldConfig::create()
           ->addComponent(new GridFieldToolbarHeader())
           ->addComponent(new GridFieldAddNewButton("toolbar-header-right"))
           ->addComponent(new GridFieldSortableHeader())
@@ -84,13 +84,13 @@ class PhotoAlbum extends DataObject {
       if($this->getComponent('PhotoGallery')->PhotoDefaultTop == true) {
         $sortable->setAppendToTop(true);
       }
-      $ImageField = UploadField::create("AlbumCover")->setTitle("Album Cover Photo");
-      $ImageField->folderName = "photogallery/" . $this->PageFolder();
+      $ImageField = UploadField::create('AlbumCover')->setTitle('Album Cover Photo');
+      $ImageField->folderName = 'photogallery/' . $this->PageFolder();
       $ImageField->getValidator()->allowedExtensions = array("jpg","jpeg","gif","png");
     }
     $Fields = new FieldList(
-      TextField::create("Name"),
-      TextareaField::create("Description"),
+      TextField::create('Name'),
+      TextareaField::create('Description'),
       $ImageField,
       $PhotosGridField
     );
@@ -107,13 +107,13 @@ class PhotoAlbum extends DataObject {
   }
 
   public function DescriptionExcerpt($length=75) {
-      $text = strip_tags($this->Description);
-      $length = abs((int)$length);
-      if(strlen($text) > $length) {
-        $text = preg_replace("/^(.{1,$length})(\s.*|$)/s", '\\1...', $text);
-      }
+    $text = strip_tags($this->Description);
+    $length = abs((int)$length);
+    if(strlen($text) > $length) {
+      $text = preg_replace("/^(.{1,$length})(\s.*|$)/s", '\\1...', $text);
+    }
     return $text;
-   }
+  }
 
   public function PhotoCropped($x=120,$y=120) {
     $width = $this->PhotoGallery()->AlbumThumbnailWidth;
@@ -132,40 +132,34 @@ class PhotoAlbum extends DataObject {
   }
 
   public function Link() {
-      if($PhotoGallery = $this->PhotoGallery()) {
-         $Action = "album/" . $this->ID;
-         return $PhotoGallery->Link($Action);
-      }
-   }
+    if($PhotoGallery = $this->PhotoGallery()) {
+      $Action = "album/" . $this->ID;
+      return $PhotoGallery->Link($Action);
+    }
+  }
 
-   public function Photos() {
+  public function Photos() {
     $photoset = new ArrayList();
-      $this->extend('GetItems', $photoset);
-      if (!$photoset->count()) {
-         $photos = PhotoItem::get()->filter("PhotoAlbumID", $this->ID);
-       if ($photos) {
-           foreach ($photos AS $photo) {
-               if ($photo->getComponent("Photo")->exists()) {
-                  $photoset->push($photo);
-               }
-            }
+    $this->extend('GetItems', $photoset);
+    if(!$photoset->count()) {
+      $photos = PhotoItem::get()->filter('PhotoAlbumID', $this->ID);
+      if($photos) {
+        foreach($photos AS $photo) {
+          if($photo->getComponent('Photo')->exists()) {
+            $photoset->push($photo);
           }
+        }
       }
-      return $photoset;
-   }
+    }
+    return $photoset;
+  }
 
-   public function PhotoCount() {
+  public function PhotoCount() {
     return $this->Photos()->count();
-   }
+  }
 
-   public function getTitle() {
-      return $this->Name;
-   }
-
-   public function PaginatedPhotos() {
-      $paginatedphotos = new PaginatedList($this->Photos(), $this->request);
-      $paginatedphotos->setPageLength($this->PhotosPerPage);
-      return $paginatedphotos;
-   }
+  public function getTitle() {
+    return $this->Name;
+  }
 
 }

@@ -87,7 +87,7 @@ class PhotoGallery extends Page {
  
 class PhotoGallery_Controller extends Page_Controller {
 
-   public static function load_requirements() {
+  public static function load_requirements() {
     Requirements::CSS("photogallery/shadowbox/shadowbox.css");
     Requirements::CSS("photogallery/css/photogallery.css");
     Requirements::javascript(FRAMEWORK_DIR .'/thirdparty/jquery/jquery.js');
@@ -151,7 +151,12 @@ class PhotoGallery_Controller extends Page_Controller {
    
   public function PaginatedAlbums() {
     $paginatedalbums = new PaginatedList($this->PhotoAlbums(), $this->request);
-    $paginatedalbums->setPageLength($this->AlbumsPerPage);
+    if($this->AlbumsPerPage > 0) {
+      $paginatedalbums->setPageLength($this->AlbumsPerPage);
+    }
+    else {
+      $paginatedalbums->setPageLength('6');
+    }
     return $paginatedalbums;
   }
 
@@ -165,7 +170,12 @@ class PhotoGallery_Controller extends Page_Controller {
    
   public function PaginatedPhotos() {
     $paginatedphotos = new PaginatedList($this->Photos(), $this->request);
-    $paginatedphotos->setPageLength($this->PhotosPerPage);
+    if($this->PhotosPerPage > 0) {
+      $paginatedphotos->setPageLength($this->PhotosPerPage);
+    }
+    else {
+      $paginatedphotos->setPageLength('20');
+    }
     return $paginatedphotos;
   }
    
