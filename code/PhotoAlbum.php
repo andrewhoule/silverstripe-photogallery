@@ -162,4 +162,33 @@ class PhotoAlbum extends DataObject {
     return $this->Name;
   }
 
+  public function PaginatedPhotos() {
+    $paginatedphotos = new PaginatedList($this->Photos(), $this->request);
+    $paginatedphotos->setPageLength($this->PhotosPerPage);
+    return $paginatedphotos;
+  }
+
+  public function OnBeforeDelete(){
+    $albumcover = $this->AlbumCover(); 
+    $albumcoverfile = Image::get()->byID($albumcover->ID);
+    if($albumcoverfile) {
+      $albumcoverfile->delete();
+    }
+    // Delete the photo items in that album
+    $photoitems = $this->getComponents('PhotoItems');
+    foreach($photoitems as $photoitem) {
+      $photoitemfile = Image::get()->byID($photoitem->Photo()->ID);
+      if($photoitemfile) {
+        $photoitemfile->delete();
+      }
+    }
+    // Delete the album folder
+    $albumfolder = $this->AlbumFolder();
+    $folder = Folder::get()->filter('Name',$albumfolder)->first();
+    if($folder) {
+      $folder->delete();
+    }
+    return parent::OnBeforeDelete(); 
+  }
+
 }
