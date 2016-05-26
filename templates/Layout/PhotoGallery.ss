@@ -1,24 +1,24 @@
-<h1 class="photo-gallery-name">$Title</h1>
+<h1 class="photo-gallery-name gallery__title">$Title</h1>
 <% if $Content %>$Content<% end_if %>
 <% if $AlbumCount > 1 %>
   <% if $PaginatedAlbums %>
-    <ul id="photo-albums">
+    <ul id="photo-albums" class="albums">
       <% loop $PaginatedAlbums %>
-        <li class="photo-album">
-          <div class="photo-album-cover">
+        <li class="photo-album album">
+          <div class="photo-album-cover album__thumb">
             <a href="$Link" title="View the $Name gallery">
               <% if $PhotoCropped %>
                 <img src="$PhotoCropped(230,170).URL" alt="$Name" />
               <% end_if %>
             </a>
-          </div><!-- photo-album-cover -->
-          <div class="photo-album-info">
+          </div><!-- photo-album-cover album__ thumb -->
+          <div class="photo-album-info album__info">
             <h4><a href="$Link" title="View the $Name gallery">$Name</a> <span class="photo-count">($PhotoCount)</span></h4>
             <p>$DescriptionExcerpt(300)</p>
-          </div><!-- photo-album-info -->
-        </li><!-- photo-album -->
+          </div><!-- .photo-album-info album__thumb -->
+        </li><!-- .photo-album albums -->
       <% end_loop %>
-    </ul><!-- photo-albums -->
+    </ul><!-- #photo-albums .albums -->
     <% if $PaginatedAlbums.MoreThanOnePage %>
       <ul class="pagination">
         <% loop $PaginatedAlbums.PaginationSummary %>
@@ -39,9 +39,9 @@
       <p>$DescriptionExcerpt(300)</p>
     </div><!-- photo-album-info -->
   <% end_loop %>
-  <% include PhotoItems %> 
+  <% include PhotoItems %>
 <% end_if %>
 <% if AlbumCount < 1 %>
     No albums to view yet.
 <% end_if %>
-    
+

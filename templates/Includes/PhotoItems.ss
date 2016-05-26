@@ -1,9 +1,9 @@
 <% if $PaginatedPhotos %>
-  <ul id="album-photos">
+  <ul id="album-photos" class="album__photos">
     <% loop $PaginatedPhotos %>
-      <li class="album-photo">
+      <li class="album-photo album__photo">
         <a href="$PhotoSized(800,800).URL" rel="shadowbox[Gallery]" title="$Caption">
-          <img src="$PhotoCropped(125,125).URL" alt="$Caption" />
+          <img src="$PhotoCropped(125,125).URL" alt="$Caption">
           <span></span>
         </a>
       </li>
@@ -21,5 +21,5 @@
     </ul><!-- pagination -->
   <% end_if %>
 <% else %>
-  <p>There are no photos in this album.</p> 
+  <p>There are no photos in this album.</p>
 <% end_if %>
