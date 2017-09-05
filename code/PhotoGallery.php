@@ -35,8 +35,8 @@ class PhotoGallery extends Page
     'AlbumDefaultTop' => true,
     'PhotoThumbnailWidth' => '150',
     'PhotoThumbnailHeight' => '150',
-    'PhotoFullWidth' => '700',
-    'PhotoFullHeight' => '700',
+    'PhotoFullWidth' => '1200',
+    'PhotoFullHeight' => '1200',
     'PhotoDefaultTop' => true
   );
    
@@ -57,7 +57,7 @@ class PhotoGallery extends Page
         ->addComponent(new GridFieldAddNewButton('toolbar-header-right'))
         ->addComponent(new GridFieldSortableHeader())
         ->addComponent(new GridFieldDataColumns())
-        ->addComponent(new GridFieldPaginator(50))
+        ->addComponent(new GridFieldPaginator(500))
         ->addComponent(new GridFieldEditButton())
         ->addComponent(new GridFieldDeleteAction())
         ->addComponent(new GridFieldDetailForm())
@@ -70,18 +70,18 @@ class PhotoGallery extends Page
         $fields->addFieldToTab("Root.Albums", $AlbumsGridField);
         $fields->addFieldToTab("Root.Config", HeaderField::create("Album Settings"));
         $fields->addFieldToTab("Root.Config", $DefaultAlbumCoverField);
-        $fields->addFieldToTab("Root.Config", SliderField::create('AlbumsPerPage', 'Number of Albums Per Page', 1, 25));
-        $fields->addFieldToTab("Root.Config", SliderField::create("AlbumThumbnailWidth", "Album Cover Thumbnail Width", 50, 400));
-        $fields->addFieldToTab("Root.Config", SliderField::create("AlbumThumbnailHeight", "Album Cover Thumbnail Height", 50, 400));
-        $fields->addFieldToTab("Root.Config", CheckboxField::create("ShowAllPhotoAlbums")->setTitle("Show photo album even if it's empty"));
-        $fields->addFieldToTab("Root.Config", CheckboxField::create("AlbumDefaultTop")->setTitle("Sort new albums to the top by default"));
+        $fields->addFieldToTab("Root.Config", SliderField::create('AlbumsPerPage', 'Number of Albums Per Page', 1, 100, $this->AlbumsPerPage));
+        $fields->addFieldToTab("Root.Config", SliderField::create("AlbumThumbnailWidth", "Album Cover Thumbnail Width", 50, 400, $this->AlbumThumbnailWidth));
+        $fields->addFieldToTab("Root.Config", SliderField::create("AlbumThumbnailHeight", "Album Cover Thumbnail Height", 50, 400, $this->AlbumThumbnailHeight));
+        $fields->addFieldToTab("Root.Config", CheckboxField::create("ShowAllPhotoAlbums", $this->ShowAllPhotoAlbums)->setTitle("Show photo album even if it's empty"));
+        $fields->addFieldToTab("Root.Config", CheckboxField::create("AlbumDefaultTop", $this->AlbumDefaultTop)->setTitle("Sort new albums to the top by default"));
         $fields->addFieldToTab("Root.Config", HeaderField::create("Photo Settings"));
-        $fields->addFieldToTab("Root.Config", SliderField::create("PhotosPerPage", "Number of Photos Per Page", 1, 50));
-        $fields->addFieldToTab("Root.Config", SliderField::create("PhotoThumbnailWidth", "Photo Thumbnail Width", 50, 400));
-        $fields->addFieldToTab("Root.Config", SliderField::create("PhotoThumbnailHeight", "Photo Thumbnail Height", 50, 400));
-        $fields->addFieldToTab("Root.Config", SliderField::create("PhotoFullWidth", "Photo Fullsize Width", 400, 1200));
-        $fields->addFieldToTab("Root.Config", SliderField::create("PhotoFullHeight", "Photo Fullsize Height", 400, 1200));
-        $fields->addFieldToTab("Root.Config", CheckboxField::create("PhotoDefaultTop")->setTitle("Sort new photos to the top by default"));
+        $fields->addFieldToTab("Root.Config", SliderField::create("PhotosPerPage", "Number of Photos Per Page", 1, 50, $this->PhotosPerPage));
+        $fields->addFieldToTab("Root.Config", SliderField::create("PhotoThumbnailWidth", "Photo Thumbnail Width", 50, 400, $this->PhotoThumbnailWidth));
+        $fields->addFieldToTab("Root.Config", SliderField::create("PhotoThumbnailHeight", "Photo Thumbnail Height", 50, 400, $this->PhotoThumbnailHeight));
+        $fields->addFieldToTab("Root.Config", SliderField::create("PhotoFullWidth", "Photo Fullsize Width".$this->PhotoFullWidth, 400, 1900, $this->PhotoFullWidth));
+        $fields->addFieldToTab("Root.Config", SliderField::create("PhotoFullHeight", "Photo Fullsize Height", 400, 1200, $this->PhotoFullHeight));
+        $fields->addFieldToTab("Root.Config", CheckboxField::create("PhotoDefaultTop", $this->PhotoDefaultTop)->setTitle("Sort new photos to the top by default"));
         return $fields;
     }
 }
