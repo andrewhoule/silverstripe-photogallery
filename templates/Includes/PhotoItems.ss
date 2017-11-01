@@ -2,7 +2,7 @@
   <ul id="album-photos" class="album__photos">
     <% loop $PaginatedPhotos %>
       <li class="album-photo album__photo">
-        <a href="$PhotoSized(800,800).URL" rel="shadowbox[Gallery]" title="$Caption">
+        <a href="$PhotoSized(800,800).URL" title="$Caption">
           <img src="$PhotoCropped(125,125).URL" alt="$Caption">
           <span></span>
         </a>

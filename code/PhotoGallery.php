@@ -98,11 +98,11 @@ class PhotoGallery_Controller extends Page_Controller
 
     public static function load_requirements()
     {
-        Requirements::CSS('photogallery/shadowbox/shadowbox.css');
+        Requirements::CSS('photogallery/magnific-popup/dist/magnific-popup.css');
         Requirements::CSS('photogallery/css/photogallery.css');
         Requirements::javascript(FRAMEWORK_DIR .'/thirdparty/jquery/jquery.js');
-        Requirements::javascript('photogallery/shadowbox/shadowbox.js');
-        Requirements::javascript('photogallery/js/shadowbox_init.js');
+        Requirements::javascript('photogallery/magnific-popup/dist/jquery.magnific-popup.js');
+        Requirements::javascript('photogallery/js/magnific-popup_init.js');
     }
 
     public function init()
