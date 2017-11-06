@@ -4,10 +4,10 @@
 <% if OtherAlbums %>
 	<div class="other-albums albums__other">
 		<h3>Other Albums</h3>
-	  	<ul class="button-list">
-	    	<% loop OtherAlbums %>
-	        	<li><a href="$Link">$Name</a></li>
-	    	<% end_loop %>
-	  	</ul>
+	  <ul class="button-list">
+	    <% loop OtherAlbums %>
+        <li><a href="$Link">$Name</a></li>
+	    <% end_loop %>
+	  </ul>
 	</div><!-- .other-albums albums__other -->
 <% end_if %>

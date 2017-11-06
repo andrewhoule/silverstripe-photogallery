@@ -7,8 +7,8 @@
         <li class="photo-album album">
           <div class="photo-album-cover album__thumb">
             <a href="$Link" title="View the $Name gallery">
-              <% if $PhotoCropped %>
-                <img src="$PhotoCropped(230,170).URL" alt="$Name" />
+              <% if $Photo %>
+                <img src="$Photo.CroppedImage($Up.PhotoThumbnailWidth,$Up.PhotoThumbnailHeight).URL" alt="$Name">
               <% end_if %>
             </a>
           </div><!-- photo-album-cover album__ thumb -->
