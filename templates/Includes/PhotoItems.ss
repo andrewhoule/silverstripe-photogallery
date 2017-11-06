@@ -1,12 +1,11 @@
 <% if $PaginatedPhotos %>
   <ul id="album-photos" class="album__photos">
     <% loop $PaginatedPhotos %>
-      <li class="album-photo album__photo">
-        <a href="$PhotoSized(800,800).URL" title="$Caption">
-          <img src="$PhotoCropped(125,125).URL" alt="$Caption">
-          <span></span>
+      <li class="album__photo">
+        <a href="$Photo.FitMax($Up.PhotoFullWidth,$Up.PhotoFullHeight).URL" title="$Caption">
+          <img src="$Photo.CroppedImage($Up.PhotoThumbnailWidth,$Up.PhotoThumbnailHeight).URL" alt="$Caption">
         </a>
-      </li>
+      </li><!-- .album__photo -->
     <% end_loop %>
   </ul>
   <% if $PaginatedPhotos.MoreThanOnePage %>
