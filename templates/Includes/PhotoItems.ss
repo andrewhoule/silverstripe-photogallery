@@ -3,7 +3,7 @@
     <% loop $PaginatedPhotos %>
       <li class="album__photo">
         <a href="$Photo.FitMax($Up.PhotoFullWidth,$Up.PhotoFullHeight).URL" title="$Caption">
-          <img src="$Photo.CroppedImage($Up.PhotoThumbnailWidth,$Up.PhotoThumbnailHeight).URL" alt="$Caption">
+          <img src="$Photo.Fill($Up.PhotoThumbnailWidth,$Up.PhotoThumbnailHeight).URL" alt="$Caption">
         </a>
       </li><!-- .album__photo -->
     <% end_loop %>

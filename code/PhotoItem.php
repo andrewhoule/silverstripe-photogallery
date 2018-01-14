@@ -1,17 +1,23 @@
 <?php
+use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\Assets\Image;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\DataObject;
 
 class PhotoItem extends DataObject
 {
   
     private static $db = array(
-    'SortID' => 'Int',
+    'SortID' => Int::class,
     'Caption' => 'Text'
   );
   
     private static $has_one = array(
-    'Photo' => 'Image',
-    'PhotoGallery' => 'PhotoGallery',
-    'PhotoAlbum' => 'PhotoAlbum'
+    'Photo' => Image::class,
+    'PhotoGallery' => PhotoGallery::class,
+    'PhotoAlbum' => PhotoAlbum::class
   );
 
     private static $summary_fields = array(
@@ -19,7 +25,7 @@ class PhotoItem extends DataObject
     'CaptionExcerpt' => 'Caption'
   );
 
-    public function canCreate($Member = null)
+    public function canCreate($Member = null, $context = array())
     {
         return true;
     }
@@ -113,8 +119,17 @@ class PhotoItem extends DataObject
         if ($height != 0) {
             $y = $height;
         }
-        return $this->Photo()->CroppedImage($x, $y);
+        return $this->Photo()->Fill($x, $y);
     }
+    public function PhotoHeight($y=700)
+    {
+        $height = $this->PhotoGallery()->PhotoThumbnailHeight;
+        if ($height != 0) {
+            $y = $height;
+        }
+        return $this->Photo()->ScaleHeight($y);
+    }
+
   
     public function PhotoSized($x=700, $y=700)
     {
@@ -126,7 +141,7 @@ class PhotoItem extends DataObject
         if ($height != 0) {
             $y = $height;
         }
-        return $this->Photo()->SetRatioSize($x, $y);
+        return $this->Photo()->Fit($x, $y);
     }
 
     public function AlbumTitle()

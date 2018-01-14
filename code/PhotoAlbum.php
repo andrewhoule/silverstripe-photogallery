@@ -1,4 +1,27 @@
 <?php
+use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\Assets\Folder;
+use SilverStripe\Assets\Image;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\TextField;
+use SilverStripe\Forms\TextareaField;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldAddNewButton;
+use SilverStripe\Forms\GridField\GridFieldConfig;
+use SilverStripe\Forms\GridField\GridFieldDataColumns;
+use SilverStripe\Forms\GridField\GridFieldDeleteAction;
+use SilverStripe\Forms\GridField\GridFieldDetailForm;
+use SilverStripe\Forms\GridField\GridFieldEditButton;
+use SilverStripe\Forms\GridField\GridFieldFilterHeader;
+use SilverStripe\Forms\GridField\GridFieldPaginator;
+use SilverStripe\Forms\GridField\GridFieldSortableHeader;
+use SilverStripe\Forms\GridField\GridFieldToolbarHeader;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\PaginatedList;
+use Colymba\BulkManager\BulkManager;
+use Colymba\BulkUpload\BulkUploader;
+use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 
 class PhotoAlbum extends DataObject
 {
@@ -11,7 +34,7 @@ class PhotoAlbum extends DataObject
 
     private static $has_one = array(
     'PhotoGallery' => 'PhotoGallery',
-    'AlbumCover' => 'Image'
+    'AlbumCover' => Image::class
   );
 
     private static $has_many = array(
@@ -24,7 +47,7 @@ class PhotoAlbum extends DataObject
     'DescriptionExcerpt' => 'Description'
   );
 
-    public function canCreate($Member = null)
+    public function canCreate($Member = null, $context = array())
     {
         return true;
     }
@@ -75,7 +98,7 @@ class PhotoAlbum extends DataObject
             $PhotosGridField = TextField::create('PhotosDisclaimer')->setTitle('Photos')->setDisabled(true)->setValue('You can add photos once you have saved the record for the first time.');
             $ImageField = TextField::create('AlbumCoverDisclaimer')->setTitle('Album Cover Photo')->setDisabled(true)->setValue('You can add an album cover once you have saved the record for the first time.');
         } else {
-            $BulkUploadComponent = new GridFieldBulkUpload();
+            $BulkUploadComponent = new BulkUploader();
             $BulkUploadComponent->setUfSetup('setFolderName', "photogallery/" . $this->PageFolder() . "/" . $this->AlbumFolder());
             $PhotosGridField = new GridField(
         'PhotoItems',
@@ -86,12 +109,12 @@ class PhotoAlbum extends DataObject
           ->addComponent(new GridFieldAddNewButton("toolbar-header-right"))
           ->addComponent(new GridFieldSortableHeader())
           ->addComponent(new GridFieldDataColumns())
-          ->addComponent(new GridFieldPaginator(50))
+          ->addComponent(new GridFieldPaginator(500))
           ->addComponent(new GridFieldEditButton())
           ->addComponent(new GridFieldDeleteAction())
           ->addComponent(new GridFieldDetailForm())
           ->addComponent(new GridFieldFilterHeader())
-          ->addComponent(new GridFieldBulkManager())
+          ->addComponent(new BulkManager())
           ->addComponent($BulkUploadComponent)
           ->addComponent($sortable = new GridFieldSortableRows('SortID'))
       );
@@ -135,6 +158,35 @@ class PhotoAlbum extends DataObject
     public function PhotoCropped($x=120, $y=120)
     {
         $width = $this->PhotoGallery()->AlbumThumbnailWidth;
+        $height = $this->PhotoGallery()->AlbumThumbnailHeight;
+        if ($width != 0) {
+            $x = $width;
+        }
+        if ($height != 0) {
+            $y = $height;
+        }
+        if ($this->AlbumCover()->exists()) {
+            return $this->AlbumCover()->Fill($x, $y);
+        } else {
+            if ($this->PhotoGallery()->DefaultAlbumCover()->exists()) {
+                return $this->PhotoGallery()->DefaultAlbumCover()->Fill($x, $y);
+            }
+        }
+    }
+    public function PhotoHeight($y=700)
+    {
+        $height = $this->PhotoGallery()->AlbumThumbnailHeight;
+        if ($height != 0) {
+            $y = $height;
+        }
+        if ($this->AlbumCover()->exists()) {
+            return $this->AlbumCover()->ScaleHeight($y);
+        }
+    }
+
+    public function PhotoSized($x=700, $y=700)
+    {
+        $width = $this->PhotoGallery()->AlbumThumbnailWidth;
         $height = $this->PhotoGallery()->AlbumThumbnailWidth;
         if ($width != 0) {
             $x = $width;
@@ -143,13 +195,14 @@ class PhotoAlbum extends DataObject
             $y = $height;
         }
         if ($this->AlbumCover()->exists()) {
-            return $this->AlbumCover()->CroppedImage($x, $y);
+            return $this->AlbumCover()->Fit($x, $y);
         } else {
             if ($this->PhotoGallery()->DefaultAlbumCover()->exists()) {
-                return $this->PhotoGallery()->DefaultAlbumCover()->CroppedImage($x, $y);
+                return $this->PhotoGallery()->DefaultAlbumCover()->Fit($x, $y);
             }
         }
     }
+
 
     public function Link()
     {
@@ -168,6 +221,9 @@ class PhotoAlbum extends DataObject
             if ($photos) {
                 foreach ($photos as $photo) {
                     if ($photo->getComponent('Photo')->exists()) {
+                        $p = $photo->Photo();
+                        $file = Image::get()->byID($p->ID);
+                        $file->grantFile();
                         $photoset->push($photo);
                     }
                 }
