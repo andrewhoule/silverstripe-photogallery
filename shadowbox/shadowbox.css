@@ -19,7 +19,6 @@
 #sb-nav{float:right;height:16px;padding:2px 0;width:45%;}
 #sb-nav a{display:block;float:right;height:16px;width:16px;margin-left:3px;cursor:pointer;background-repeat:no-repeat;}
 #sb-nav-close{background-image:url(close.png);}
-#sb-nav-download{background-image:url(download.png);}
 #sb-nav-next{background-image:url(next.png);}
 #sb-nav-previous{background-image:url(previous.png);}
 #sb-nav-play{background-image:url(play.png);}
