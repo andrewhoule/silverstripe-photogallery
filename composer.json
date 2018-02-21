@@ -6,15 +6,15 @@
     "license": "BSD-3-Clause",
     "authors": [{
         "name": "Andrew Houle",
-        "homepage": "http://andyhoule.com",
+        "homepage": "https://andrewhoule.me",
         "role": "Developer"
     }],
     "require": {
-        "silverstripe/cms": "3.*",
-        "silverstripe/framework": "3.*",
-        "undefinedoffset/sortablegridfield": "*",
-        "colymba/gridfield-bulk-editing-tools": "*",
-        "tractorcow/silverstripe-sliderfield": "*"
+        "silverstripe/cms": "4.*",
+        "silverstripe/framework": "4.*",
+        "undefinedoffset/sortablegridfield": "dev-master",
+        "colymba/gridfield-bulk-editing-tools": "dev-master",
+        "tractorcow/silverstripe-sliderfield": "dev-master"
     },
     "suggest": {
         "unclecheese/betterbuttons": "*"

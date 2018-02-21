@@ -1,0 +1,27 @@
+
+/* Some very basic styles... You should likely overwrite these with your own to suit your needs */
+
+/* Responsive Images */
+
+.photo-albums img,
+.photo-items img {
+  height: auto;
+  max-width: 100%;
+}
+
+/* Photo Albums */
+
+.photo-albums {
+  display: grid;
+  grid-gap: 30px;
+  grid-template-columns: repeat(5, minmax(100px, 1fr));
+}
+
+/* Photo Items */
+
+.photo-items {
+  display: grid;
+  grid-gap: 30px;
+  grid-template-columns: repeat(5, minmax(100px, 1fr));
+  margin-bottom: 60px;
+}
