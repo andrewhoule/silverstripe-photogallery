@@ -22,5 +22,6 @@ Simple Photo Gallery
 * Add a basic theme
 * Add documentation
 * Add lightbox options
+* Add yml for default settings
 
 
