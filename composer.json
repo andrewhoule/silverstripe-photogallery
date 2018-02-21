@@ -1,25 +1,30 @@
 {
-    "name": "andrewhoule/silverstripe-photogallery",
-    "description": "Creates a basic photo gallery pagetype with albums and photos. Photos within albums are opened with a lightbox.",
-    "type": "silverstripe-module",
-    "keywords": ["silverstripe", "photos", "photo gallery", "albums", "lightbox"],
-    "license": "BSD-3-Clause",
-    "authors": [{
-        "name": "Andrew Houle",
-        "homepage": "https://andrewhoule.me",
-        "role": "Developer"
-    }],
-    "require": {
-        "silverstripe/cms": "4.*",
-        "silverstripe/framework": "4.*",
-        "undefinedoffset/sortablegridfield": "^2.0",
-        "colymba/gridfield-bulk-editing-tools": "dev-master",
-        "tractorcow/silverstripe-sliderfield": "dev-master"
-    },
-    "suggest": {
-        "unclecheese/betterbuttons": "*"
-    },
-    "extra": {
-        "installer-name": "photogallery"
+  "name": "andrewhoule/silverstripe-photogallery",
+  "description": "Creates a basic photo gallery pagetype with albums and photos. Photos within albums are opened with a lightbox.",
+  "type": "silverstripe-module",
+  "keywords": ["silverstripe", "photos", "photo gallery", "albums", "lightbox"],
+  "license": "BSD-3-Clause",
+  "authors": [{
+    "name": "Andrew Houle",
+    "homepage": "https://andrewhoule.me",
+    "role": "Developer"
+  }],
+  "require": {
+    "silverstripe/vendor-plugin": "^1.0",
+    "silverstripe/cms": "4.*",
+    "undefinedoffset/sortablegridfield": "^2.0",
+    "colymba/gridfield-bulk-editing-tools": "dev-master",
+    "tractorcow/silverstripe-sliderfield": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "AndrewHoule\\PhotoGallery\\": "src/"
     }
+  },
+  "suggest": {
+    "unclecheese/betterbuttons": "*"
+  },
+  "extra": {
+    "installer-name": "photogallery"
+  }
 }
