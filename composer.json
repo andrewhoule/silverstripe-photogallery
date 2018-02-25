@@ -22,7 +22,7 @@
     "silverstripe/vendor-plugin": "^1.0",
     "silverstripe/cms": "4.*",
     "undefinedoffset/sortablegridfield": "^2.0",
-    "colymba/gridfield-bulk-editing-tools": "dev-master",
+    "colymba/gridfield-bulk-editing-tools": "^3",
     "tractorcow/silverstripe-sliderfield": "dev-master"
   },
   "autoload": {
