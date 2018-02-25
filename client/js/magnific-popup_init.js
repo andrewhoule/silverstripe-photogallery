@@ -2,7 +2,7 @@
 $(function() {
 
   // Get the elements
-  var $items = $('.album__photos');
+  var $items = $('.photo-item');
 
   if ($items.length) {
     $items.magnificPopup({
