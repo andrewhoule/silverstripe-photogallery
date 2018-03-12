@@ -54,7 +54,7 @@
       <p class="photo-album__excerpt">$DescriptionExcerpt(300)</p>
     </div><!-- photo-album-info -->
   <% end_loop %>
-  <% include PhotoItems %>
+  <% include AndrewHoule\PhotoGallery\Pages\PhotoItems %>
 <% end_if %>
 
 <% if $PaginatedAlbums.Count() < 1 %>
