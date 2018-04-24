@@ -8,9 +8,9 @@ use Page;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
-use TractorCow\SliderField\SliderField;
 use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 
 class PhotoGallery extends Page
@@ -112,9 +112,9 @@ class PhotoGallery extends Page
                     'png',
                     'gif'
                 ]),
-            SliderField::create('AlbumsPerPage', 'Albums Per Page', 1, 100, $this->AlbumsPerPage),
-            SliderField::create('AlbumThumbnailWidth', 'Album Cover Thumbnail Width', 50, 400, $this->AlbumThumbnailWidth),
-            SliderField::create('AlbumThumbnailHeight', 'Album Cover Thumbnail Height', 50, 400, $this->AlbumThumbnailHeight),
+            NumericField::create('AlbumsPerPage', 'Albums Per Page', $this->AlbumsPerPage),
+            NumericField::create('AlbumThumbnailWidth', 'Album Cover Thumbnail Width', $this->AlbumThumbnailWidth),
+            NumericField::create('AlbumThumbnailHeight', 'Album Cover Thumbnail Height', $this->AlbumThumbnailHeight),
             CheckboxField::create('ShowAllPhotoAlbums', $this->ShowAllPhotoAlbums)
                 ->setTitle('Show photo album even if it\'s empty'),
             CheckboxField::create('AlbumDefaultTop', $this->AlbumDefaultTop)
@@ -123,11 +123,11 @@ class PhotoGallery extends Page
 
         // Photo Settings
         $fields->addFieldsToTab('Root.PhotoSettings', [
-            SliderField::create('PhotosPerPage', 'Photos Per Page', 1, 50, $this->PhotosPerPage),
-            SliderField::create('PhotoThumbnailWidth', 'Photo Thumbnail Width', 50, 400, $this->PhotoThumbnailWidth),
-            SliderField::create('PhotoThumbnailHeight', 'Photo Thumbnail Height', 50, 400, $this->PhotoThumbnailHeight),
-            SliderField::create('PhotoFullWidth', 'Photo Fullsize Width', 400, 1900, $this->PhotoFullWidth),
-            SliderField::create('PhotoFullHeight', 'Photo Fullsize Height', 400, 1200, $this->PhotoFullHeight),
+            NumericField::create('PhotosPerPage', 'Photos Per Page', $this->PhotosPerPage),
+            NumericField::create('PhotoThumbnailWidth', 'Photo Thumbnail Width', $this->PhotoThumbnailWidth),
+            NumericField::create('PhotoThumbnailHeight', 'Photo Thumbnail Height', $this->PhotoThumbnailHeight),
+            NumericField::create('PhotoFullWidth', 'Photo Fullsize Width', $this->PhotoFullWidth),
+            NumericField::create('PhotoFullHeight', 'Photo Fullsize Height', $this->PhotoFullHeight),
             CheckboxField::create('PhotoDefaultTop', $this->PhotoDefaultTop)
                 ->setTitle('Sort new photos to the top by default')
         ]);

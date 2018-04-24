@@ -9,7 +9,6 @@ Simple Photo Gallery
 * SilverStripe minimum version 4+. For SilverStripe 3 please use the SS3 branch.
 * SortableGridField Module - https://github.com/UndefinedOffset/SortableGridField
 * GridFieldBulkEditingTools Module - https://github.com/colymba/GridFieldBulkEditingTools
-* SliderField Module - https://github.com/tractorcow/silverstripe-sliderfield
 
 ## Installation
 * Via Composer run "composer require andrewhoule/silverstripe-photogallery"
