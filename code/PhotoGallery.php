@@ -117,8 +117,9 @@ class PhotoGallery_Controller extends Page_Controller
 
     public function getAlbum()
     {
-        $Params = $this->getURLParams();
-        if (is_numeric($Params['ID']) && $Album = PhotoAlbum::get()->byID((int)$Params['ID'])) {
+        $request = $this->getRequest();
+        $id = $request->param('ID');
+        if (is_numeric($id) && $Album = PhotoAlbum::get()->byID((int)$id)) {
             return $Album;
         } else {
             return $this->PhotoAlbums()->first();
