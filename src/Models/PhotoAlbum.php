@@ -5,7 +5,7 @@ namespace AndrewHoule\PhotoGallery\Models;
 use AndrewHoule\PhotoGallery\Models\PhotoItem;
 use AndrewHoule\PhotoGallery\Pages\PhotoGallery;
 use AndrewHoule\PhotoGallery\Traits\CMSPermissionProvider;
-use Colymba\BulkUpload\BulkUploader;
+// use Colymba\BulkUpload\BulkUploader;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\FieldList;
@@ -114,8 +114,8 @@ class PhotoAlbum extends DataObject
                 $this->PhotoItems(),
                 GridFieldConfig_RecordEditor::create(100)
                     ->addComponent($sortablePhotos = new GridFieldSortableRows('SortID'))
-                    ->addComponent($bulkUploader = new BulkUploader())
-                    ->removeComponentsByType(GridFieldAddNewButton::class)
+                    // ->addComponent($bulkUploader = new BulkUploader())
+                    // ->removeComponentsByType(GridFieldAddNewButton::class)
             )
         );
 
@@ -123,7 +123,7 @@ class PhotoAlbum extends DataObject
         if ($this->PhotoGallery()->PhotoDefaultTop == true) {
             $sortablePhotos->setAppendToTop(true);
         }
-        $bulkUploader->setUfSetup('setFolderName', $this->AlbumFolderName());
+        // $bulkUploader->setUfSetup('setFolderName', $this->AlbumFolderName());
 
         return $fields;
     }
