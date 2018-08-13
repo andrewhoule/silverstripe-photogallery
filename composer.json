@@ -13,8 +13,7 @@
         "silverstripe/cms": "3.*",
         "silverstripe/framework": "3.*",
         "undefinedoffset/sortablegridfield": "*",
-        "colymba/gridfield-bulk-editing-tools": "*",
-        "tractorcow/silverstripe-sliderfield": "*"
+        "colymba/gridfield-bulk-editing-tools": "*"
     },
     "suggest": {
         "unclecheese/betterbuttons": "*"
