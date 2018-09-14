@@ -7,6 +7,7 @@ use AndrewHoule\PhotoGallery\Pages\PhotoGallery;
 use AndrewHoule\PhotoGallery\Traits\CMSPermissionProvider;
 // use Colymba\BulkUpload\BulkUploader;
 use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
@@ -214,7 +215,7 @@ class PhotoAlbum extends DataObject
         }
 
         // Delete the album folder
-        $albumfolder = $this->AlbumFolder();
+        $albumfolder = $this->AlbumFolderName();
         $folder = Folder::get()->filter('Name', $albumfolder)->first();
         if ($folder) {
             $folder->delete();
