@@ -10,17 +10,20 @@
     "lightbox"
   ],
   "license": "BSD-3-Clause",
-  "authors": [{
-    "name": "Andrew Houle",
-    "homepage": "https://andrewhoule.me",
-    "role": "Developer"
-  }],
+  "authors": [
+    {
+      "name": "Andrew Houle",
+      "homepage": "https://andrewhoule.me",
+      "role": "Developer"
+    }
+  ],
   "support": {
     "issues": "https://github.com/andrewhoule/silverstripe-photogallery/issues"
   },
   "require": {
     "silverstripe/vendor-plugin": "^1.0",
-    "silverstripe/cms": "4.*",
+    "silverstripe/cms": "~4",
+    "silverstripe/framework": "~4",
     "undefinedoffset/sortablegridfield": "^2.0",
     "colymba/gridfield-bulk-editing-tools": "dev-master"
   },
