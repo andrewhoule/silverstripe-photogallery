@@ -2,11 +2,11 @@
 
 namespace AndrewHoule\PhotoGallery\Pages;
 
-use AndrewHoule\PhotoGallery\Models\PhotoAlbum;
 use PageController;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\View\Requirements;
+use AndrewHoule\PhotoGallery\Models\PhotoAlbum;
 
 class PhotoGalleryController extends PageController
 {

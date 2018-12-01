@@ -2,17 +2,17 @@
 
 namespace AndrewHoule\PhotoGallery\Models;
 
+use SilverStripe\Assets\Image;
+use SilverStripe\Forms\TabSet;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\TextField;
+use SilverStripe\Versioned\Versioned;
+use SilverStripe\AssetAdmin\Forms\UploadField;
 use AndrewHoule\PhotoGallery\Models\PhotoAlbum;
 use AndrewHoule\PhotoGallery\Pages\PhotoGallery;
+use AndrewHoule\PhotoGallery\Extensions\Sortable;
 use AndrewHoule\PhotoGallery\Traits\CMSPermissionProvider;
-use SilverStripe\AssetAdmin\Forms\UploadField;
-use SilverStripe\Assets\Image;
-use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\TabSet;
-use SilverStripe\Forms\TextField;
-use SilverStripe\ORM\DataObject;
-use SilverStripe\Security\Permission;
-use SilverStripe\Versioned\Versioned;
 
 class PhotoItem extends DataObject
 {
@@ -20,38 +20,38 @@ class PhotoItem extends DataObject
     use CMSPermissionProvider;
 
     private static $db = [
-        'SortID' => 'Int',
-        'Caption' => 'Text'
+        'Caption' => 'Text',
     ];
 
     private static $has_one = [
         'Photo' => Image::class,
         'PhotoGallery' => PhotoGallery::class,
-        'PhotoAlbum' => PhotoAlbum::class
+        'PhotoAlbum' => PhotoAlbum::class,
     ];
 
     private static $owns = [
-        'Photo'
+        'Photo',
+    ];
+
+    private static $cascade_deletes = [
+        'Photo',
     ];
 
     private static $summary_fields = [
         'Thumbnail' => 'Photo',
-        'CaptionExcerpt' => 'Caption'
+        'CaptionExcerpt' => 'Caption',
+    ];
+
+    private static $extensions = [
+        Versioned::class,
+        Sortable::class,
     ];
 
     private static $table_name = 'PhotoItem';
 
-    private static $default_sort = 'SortID ASC';
-
     private static $singular_name = 'Photo';
 
     private static $plural_name = 'Photos';
-
-    private static $extensions = [
-        Versioned::class
-    ];
-
-    private static $versioned_gridfield_extensions = true;
 
     public function getCMSFields()
     {

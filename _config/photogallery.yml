@@ -1,0 +1,3 @@
+SilverStripe\Assets\Image:
+  belongs_many_many:
+    PhotoAlbums: PhotoAlbum.PhotoItems

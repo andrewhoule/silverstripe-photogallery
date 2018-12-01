@@ -25,7 +25,7 @@
     "silverstripe/cms": "~4",
     "silverstripe/framework": "~4",
     "undefinedoffset/sortablegridfield": "^2.0",
-    "colymba/gridfield-bulk-editing-tools": "dev-master"
+    "bummzack/sortablefile": "dev-master"
   },
   "autoload": {
     "psr-4": {

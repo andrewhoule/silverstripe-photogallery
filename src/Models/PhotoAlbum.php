@@ -2,26 +2,23 @@
 
 namespace AndrewHoule\PhotoGallery\Models;
 
-use AndrewHoule\PhotoGallery\Models\PhotoItem;
-use AndrewHoule\PhotoGallery\Pages\PhotoGallery;
-use AndrewHoule\PhotoGallery\Traits\CMSPermissionProvider;
-use Colymba\BulkUpload\BulkUploader;
-use SilverStripe\AssetAdmin\Forms\UploadField;
-use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\Image;
-use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\GridField\GridFieldAddNewButton;
-use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\TabSet;
-use SilverStripe\Forms\TextField;
-use SilverStripe\Forms\TextareaField;
+use SilverStripe\Assets\Folder;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\PaginatedList;
-use SilverStripe\Security\Permission;
+use SilverStripe\Forms\TextareaField;
 use SilverStripe\Versioned\Versioned;
-use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
+use SilverStripe\Forms\GridField\GridField;
+use AndrewHoule\PhotoGallery\Models\PhotoItem;
+use SilverStripe\AssetAdmin\Forms\UploadField;
+use AndrewHoule\PhotoGallery\Pages\PhotoGallery;
+use AndrewHoule\PhotoGallery\Extensions\Sortable;
+use Bummzack\SortableFile\Forms\SortableUploadField;
+use AndrewHoule\PhotoGallery\Traits\CMSPermissionProvider;
 
 class PhotoAlbum extends DataObject
 {
@@ -29,40 +26,45 @@ class PhotoAlbum extends DataObject
     use CMSPermissionProvider;
 
     private static $db = [
-        'SortID' => 'Int',
         'Name' => 'Text',
-        'Description' => 'HTMLText'
+        'Description' => 'HTMLText',
     ];
 
     private static $has_one = [
         'PhotoGallery' => PhotoGallery::class,
-        'AlbumCover' => Image::class
+        'AlbumCover' => Image::class,
     ];
 
-    private static $has_many = [
-        'PhotoItems' => PhotoItem::class
+    private static $many_many = [
+        'PhotoItems' => [
+            'through' => PhotoItem::class,
+            'from' => 'PhotoAlbum',
+            'to' => 'Photo',
+        ]
     ];
 
     private static $owns = [
         'AlbumCover',
-        'PhotoItems'
+        'PhotoItems',
+    ];
+
+    private static $cascade_deletes = [
+        'AlbumCover',
+        'PhotoItems',
     ];
 
     private static $summary_fields = [
         'Thumbnail' => 'Cover Photo',
         'Name' => 'Name',
-        'DescriptionExcerpt' => 'Description'
+        'DescriptionExcerpt' => 'Description',
     ];
 
     private static $extensions = [
-        Versioned::class
+        Versioned::class,
+        Sortable::class,
     ];
 
-    private static $versioned_gridfield_extensions = true;
-
     private static $table_name = 'PhotoAlbum';
-
-    private static $default_sort = 'SortID ASC';
 
     public function AlbumFolderName()
     {
@@ -104,29 +106,19 @@ class PhotoAlbum extends DataObject
                     'jpeg',
                     'png',
                     'gif'
-                ])
+                ]),
+            SortableUploadField::create('PhotoItems')
+                    ->setTitle('Photos')
+                    ->setDescription('jpg, gif and png filetypes allowed.')
+                    ->setFolderName($this->AlbumFolderName())
+                    ->setAllowedExtensions([
+                        'jpg',
+                        'jpeg',
+                        'png',
+                        'gif'
+                    ])
+                    ->setSortColumn('SortID')
         ]);
-
-        // Photos
-        $fields->addFieldToTab('Root.Main.Photos',
-            GridField::create(
-                'PhotoItems',
-                'Photos',
-                $this->PhotoItems(),
-                GridFieldConfig_RecordEditor::create(100)
-                    ->addComponent($sortablePhotos = new GridFieldSortableRows('SortID'))
-                    ->addComponent($bulkUploader = new BulkUploader())
-                    ->removeComponentsByType(GridFieldAddNewButton::class)
-            )
-        );
-
-        $sortablePhotos->setUpdateVersionedStage('Live');
-        if ($this->PhotoGallery()->PhotoDefaultTop == true) {
-            $sortablePhotos->setAppendToTop(true);
-        }
-        $bulkUploader
-            ->setAutoPublishDataObject(true)
-            ->setUfSetup('setFolderName', $this->AlbumFolderName());
 
         return $fields;
     }
@@ -160,7 +152,9 @@ class PhotoAlbum extends DataObject
         $photoset = new ArrayList();
         $this->extend('GetItems', $photoset);
         if (!$photoset->count()) {
-            $photos = PhotoItem::get()->filter('PhotoAlbumID', $this->ID);
+            $photos = PhotoItem::get()
+                ->filter('PhotoAlbumID', $this->ID)
+                ->sort('SortID');
             if ($photos) {
                 foreach ($photos as $photo) {
                     if ($photo->getComponent('Photo')->exists()) {

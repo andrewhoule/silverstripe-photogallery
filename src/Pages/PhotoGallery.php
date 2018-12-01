@@ -2,14 +2,15 @@
 
 namespace AndrewHoule\PhotoGallery\Pages;
 
-use AndrewHoule\PhotoGallery\Models\PhotoAlbum;
-use AndrewHoule\PhotoGallery\Models\PhotoItem;
 use Page;
-use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
-use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\NumericField;
+use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\GridField\GridField;
+use AndrewHoule\PhotoGallery\Models\PhotoItem;
+use SilverStripe\AssetAdmin\Forms\UploadField;
+use AndrewHoule\PhotoGallery\Models\PhotoAlbum;
+use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows;
 
@@ -27,20 +28,27 @@ class PhotoGallery extends Page
         'PhotoThumbnailWidth' => 'Int',
         'PhotoFullHeight' => 'Int',
         'PhotoFullWidth' => 'Int',
-        'PhotoDefaultTop' => 'Boolean'
     ];
 
     private static $has_one = [
-        'DefaultAlbumCover' => Image::class
+        'DefaultAlbumCover' => Image::class,
     ];
 
     private static $has_many = [
         'PhotoAlbums' => PhotoAlbum::class,
-        'PhotoItems' => PhotoItem::class
+        'PhotoItems' => PhotoItem::class,
     ];
 
     private static $owns = [
-        'DefaultAlbumCover'
+        'DefaultAlbumCover',
+        'PhotoAlbums',
+        'PhotoItems',
+    ];
+
+    private static $cascade_deletes = [
+        'DefaultAlbumCover',
+        'PhotoAlbums',
+        'PhotoItems',
     ];
 
     private static $defaults = [
@@ -54,7 +62,6 @@ class PhotoGallery extends Page
         'PhotoThumbnailHeight' => 400,
         'PhotoFullWidth' => 1200,
         'PhotoFullHeight' => 1200,
-        'PhotoDefaultTop' => true
     ];
 
     private static $icon = 'photogallery/img/photogallery';
@@ -94,6 +101,7 @@ class PhotoGallery extends Page
                 $this->PhotoAlbums(),
                 GridFieldConfig_RecordEditor::create(100)
                     ->addComponent($sortableAlbums = new GridFieldSortableRows('SortID'))
+                    ->removeComponentsByType(GridFieldDeleteAction::class)
             )
         );
         $sortableAlbums->setUpdateVersionedStage('Live');
@@ -127,9 +135,7 @@ class PhotoGallery extends Page
             NumericField::create('PhotoThumbnailWidth', 'Photo Thumbnail Width', $this->PhotoThumbnailWidth),
             NumericField::create('PhotoThumbnailHeight', 'Photo Thumbnail Height', $this->PhotoThumbnailHeight),
             NumericField::create('PhotoFullWidth', 'Photo Fullsize Width', $this->PhotoFullWidth),
-            NumericField::create('PhotoFullHeight', 'Photo Fullsize Height', $this->PhotoFullHeight),
-            CheckboxField::create('PhotoDefaultTop', $this->PhotoDefaultTop)
-                ->setTitle('Sort new photos to the top by default')
+            NumericField::create('PhotoFullHeight', 'Photo Fullsize Height', $this->PhotoFullHeight)
         ]);
 
         return $fields;

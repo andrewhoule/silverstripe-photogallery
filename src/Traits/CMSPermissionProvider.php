@@ -2,8 +2,6 @@
 
 namespace AndrewHoule\PhotoGallery\Traits;
 
-use SilverStripe\Security\Permission;
-
 /**
  * Class CMSPermissionProvider
  */
@@ -17,7 +15,7 @@ trait CMSPermissionProvider
      */
     public function canCreate($member = null, $context = [])
     {
-        return Permission::check('CMS_ACCESS_CMSMain');
+        return true;
     }
 
     /**
@@ -27,7 +25,7 @@ trait CMSPermissionProvider
      */
     public function canEdit($member = null, $context = [])
     {
-        return Permission::check('CMS_ACCESS_CMSMain');
+        return true;
     }
 
     /**
@@ -37,7 +35,7 @@ trait CMSPermissionProvider
      */
     public function canDelete($member = null, $context = [])
     {
-        return Permission::check('CMS_ACCESS_CMSMain');
+        return true;
     }
 
     /**
