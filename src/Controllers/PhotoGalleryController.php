@@ -13,11 +13,11 @@ class PhotoGalleryController extends PageController
 
     public static function load_requirements()
     {
-        Requirements::CSS('resources/vendor/andrewhoule/silverstripe-photogallery/magnific-popup/dist/magnific-popup.css');
-        Requirements::CSS('resources/vendor/andrewhoule/silverstripe-photogallery/client/css/photogallery.css');
-        Requirements::javascript('resources/vendor/andrewhoule/silverstripe-photogallery/magnific-popup/libs/jquery/jquery.js');
-        Requirements::javascript('resources/vendor/andrewhoule/silverstripe-photogallery/magnific-popup/dist/jquery.magnific-popup.js');
-        Requirements::javascript('resources/vendor/andrewhoule/silverstripe-photogallery/client/js/magnific-popup_init.js');
+        Requirements::CSS('andrewhoule/silverstripe-photogallery: magnific-popup/dist/magnific-popup.css');
+        Requirements::CSS('andrewhoule/silverstripe-photogallery: client/css/photogallery.css');
+        Requirements::javascript('andrewhoule/silverstripe-photogallery: magnific-popup/libs/jquery/jquery.js');
+        Requirements::javascript('andrewhoule/silverstripe-photogallery: magnific-popup/dist/jquery.magnific-popup.js');
+        Requirements::javascript('andrewhoule/silverstripe-photogallery: client/js/magnific-popup_init.js');
     }
 
     public function init()
