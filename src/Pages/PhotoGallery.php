@@ -64,7 +64,7 @@ class PhotoGallery extends Page
         'PhotoFullHeight' => 1200,
     ];
 
-    private static $icon = 'photogallery/img/photogallery';
+    private static $icon_class = 'font-icon-image';
 
     private static $table_name = 'PhotoGallery';
 
