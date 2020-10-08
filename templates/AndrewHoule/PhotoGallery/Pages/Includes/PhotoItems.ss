@@ -2,8 +2,8 @@
   <section class="photo-items">
     <% loop $PaginatedPhotos %>
       <div class="photo-item">
-        <a href="$Photo.FillMax($Up.PhotoFullWidth,$Up.PhotoFullHeight).URL" title="$Caption" class="photo-item__link">
-          <img src="$Photo.FitMax($Up.PhotoThumbnailWidth,$Up.PhotoThumbnailHeight).URL" alt="$Caption" class="photo-item__thumb">
+        <a href="$Photo.FitMax($Up.PhotoFullWidth,$Up.PhotoFullHeight).URL" title="$Caption" class="photo-item__link">
+          <img src="$Photo.FillMax($Up.PhotoThumbnailWidth,$Up.PhotoThumbnailHeight).URL" alt="$Caption" class="photo-item__thumb">
         </a><!-- .photo-item__link -->
       </div><!-- .photo-item -->
     <% end_loop %>
