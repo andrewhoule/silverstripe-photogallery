@@ -202,9 +202,9 @@ class PhotoAlbum extends DataObject
         }
 
         // Delete the photo items in that album
-        $photoitems = $this->getComponents('PhotoItems');
+        $photoitems = $this->getManyManyComponents("PhotoItems");
         foreach ($photoitems as $photoitem) {
-            $photoitemfile = Image::get()->byID($photoitem->Photo()->ID);
+            $photoitemfile = Image::get()->byID($photoitem->ID);
             if ($photoitemfile) {
                 $photoitemfile->delete();
             }
