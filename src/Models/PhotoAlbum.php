@@ -131,6 +131,9 @@ class PhotoAlbum extends DataObject
 
     public function DescriptionExcerpt($length = 75)
     {
+        if($this->Description === null)  {
+            return '';
+        }
         $text = strip_tags($this->Description);
         $length = abs((int)$length);
         if (strlen($text) > $length) {
